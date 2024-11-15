@@ -13,6 +13,7 @@ class CollectionMapper extends ClassMapperBase<Collection> {
   static CollectionMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = CollectionMapper._());
+      BookmarkMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -28,12 +29,16 @@ class CollectionMapper extends ClassMapperBase<Collection> {
   static const Field<Collection, bool> _f$private = Field('private', _$private);
   static DateTime _$createdAt(Collection v) => v.createdAt;
   static const Field<Collection, DateTime> _f$createdAt =
-      Field('createdAt', _$createdAt);
+      Field('createdAt', _$createdAt, key: 'created_at');
   static DateTime _$updatedAt(Collection v) => v.updatedAt;
   static const Field<Collection, DateTime> _f$updatedAt =
-      Field('updatedAt', _$updatedAt);
+      Field('updatedAt', _$updatedAt, key: 'updated_at');
   static String _$userId(Collection v) => v.userId;
-  static const Field<Collection, String> _f$userId = Field('userId', _$userId);
+  static const Field<Collection, String> _f$userId =
+      Field('userId', _$userId, key: 'user_id');
+  static List<Bookmark>? _$bookmarks(Collection v) => v.bookmarks;
+  static const Field<Collection, List<Bookmark>> _f$bookmarks =
+      Field('bookmarks', _$bookmarks, opt: true);
 
   @override
   final MappableFields<Collection> fields = const {
@@ -43,6 +48,7 @@ class CollectionMapper extends ClassMapperBase<Collection> {
     #createdAt: _f$createdAt,
     #updatedAt: _f$updatedAt,
     #userId: _f$userId,
+    #bookmarks: _f$bookmarks,
   };
 
   static Collection _instantiate(DecodingData data) {
@@ -52,7 +58,8 @@ class CollectionMapper extends ClassMapperBase<Collection> {
         private: data.dec(_f$private),
         createdAt: data.dec(_f$createdAt),
         updatedAt: data.dec(_f$updatedAt),
-        userId: data.dec(_f$userId));
+        userId: data.dec(_f$userId),
+        bookmarks: data.dec(_f$bookmarks));
   }
 
   @override
@@ -106,13 +113,16 @@ extension CollectionValueCopy<$R, $Out>
 
 abstract class CollectionCopyWith<$R, $In extends Collection, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, Bookmark, BookmarkCopyWith<$R, Bookmark, Bookmark>>?
+      get bookmarks;
   $R call(
       {String? id,
       String? title,
       bool? private,
       DateTime? createdAt,
       DateTime? updatedAt,
-      String? userId});
+      String? userId,
+      List<Bookmark>? bookmarks});
   CollectionCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -125,20 +135,28 @@ class _CollectionCopyWithImpl<$R, $Out>
   late final ClassMapperBase<Collection> $mapper =
       CollectionMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, Bookmark, BookmarkCopyWith<$R, Bookmark, Bookmark>>?
+      get bookmarks => $value.bookmarks != null
+          ? ListCopyWith($value.bookmarks!, (v, t) => v.copyWith.$chain(t),
+              (v) => call(bookmarks: v))
+          : null;
+  @override
   $R call(
           {String? id,
           String? title,
           bool? private,
           DateTime? createdAt,
           DateTime? updatedAt,
-          String? userId}) =>
+          String? userId,
+          Object? bookmarks = $none}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (title != null) #title: title,
         if (private != null) #private: private,
         if (createdAt != null) #createdAt: createdAt,
         if (updatedAt != null) #updatedAt: updatedAt,
-        if (userId != null) #userId: userId
+        if (userId != null) #userId: userId,
+        if (bookmarks != $none) #bookmarks: bookmarks
       }));
   @override
   Collection $make(CopyWithData data) => Collection(
@@ -147,7 +165,8 @@ class _CollectionCopyWithImpl<$R, $Out>
       private: data.get(#private, or: $value.private),
       createdAt: data.get(#createdAt, or: $value.createdAt),
       updatedAt: data.get(#updatedAt, or: $value.updatedAt),
-      userId: data.get(#userId, or: $value.userId));
+      userId: data.get(#userId, or: $value.userId),
+      bookmarks: data.get(#bookmarks, or: $value.bookmarks));
 
   @override
   CollectionCopyWith<$R2, Collection, $Out2> $chain<$R2, $Out2>(

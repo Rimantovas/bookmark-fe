@@ -38,6 +38,8 @@ class UpdateTagDtoMapper extends ClassMapperBase<UpdateTagDto> {
     #icon: _f$icon,
   };
 
+  @override
+  final MappingHook hook = const ColorHook();
   static UpdateTagDto _instantiate(DecodingData data) {
     return UpdateTagDto(
         name: data.dec(_f$name),
