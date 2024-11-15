@@ -1,5 +1,6 @@
 import 'package:app/domain/models/bookmark.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:mock_data/mock_data.dart';
 
 part 'collection.mapper.dart';
 
@@ -24,4 +25,13 @@ class Collection with CollectionMappable {
     required this.userId,
     this.bookmarks,
   });
+
+  Collection.mock()
+      : id = mockUUID(),
+        title = mockName(),
+        private = false,
+        createdAt = DateTime.now(),
+        updatedAt = DateTime.now(),
+        userId = mockUUID(),
+        bookmarks = [];
 }
