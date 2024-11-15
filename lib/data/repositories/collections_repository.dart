@@ -3,7 +3,8 @@ import 'package:app/domain/models/collection.dart';
 import 'package:app/main.dart';
 
 class CollectionsRepository {
-  static const String _kBasePath = '/collections';
+  static const _kBasePath = '/collections';
+  static const _kSearchPath = '$_kBasePath/search';
 
   Future<Collection> getCollection(String id) async {
     final response = await dio.get('$_kBasePath/$id');
@@ -20,7 +21,7 @@ class CollectionsRepository {
   Future<Collection> createCollection(Collection collection) async {
     final response = await dio.post(
       _kBasePath,
-      data: collection.toMap(),
+      data: collection.toJson(),
     );
     return CollectionMapper.fromMap(response.data);
   }
@@ -31,7 +32,7 @@ class CollectionsRepository {
   ) async {
     final response = await dio.put(
       '$_kBasePath/$id',
-      data: collection.toMap(),
+      data: collection.toJson(),
     );
     return CollectionMapper.fromMap(response.data);
   }
@@ -44,7 +45,7 @@ class CollectionsRepository {
     SearchPaginationDto searchParams,
   ) async {
     final response = await dio.get(
-      _kBasePath,
+      _kSearchPath,
       queryParameters: searchParams.toMap(),
     );
     return (response.data as List<dynamic>)
