@@ -7,4 +7,5 @@ class AppColors {
   final Color pale = const Color(0xFFa4b4cb);
   final Color grey = const Color(0xFFecedef);
   final Color white = const Color(0xFFFFFFFF);
+  final Color red = const Color(0xFFf05454);
 }

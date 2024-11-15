@@ -3,14 +3,13 @@ import 'package:dart_mappable/dart_mappable.dart';
 
 part 'bookmark.mapper.dart';
 
-@MappableClass(
-  caseStyle: CaseStyle.snakeCase,
-)
+@MappableClass()
 class Bookmark with BookmarkMappable {
   final String id;
   final String link;
   final String? title;
   final String? description;
+  @MappableField(key: 'image_url')
   final String? imageUrl;
   final List<Tag> tags;
   final String? appId;

@@ -4,9 +4,7 @@ import 'package:mock_data/mock_data.dart';
 
 part 'collection.mapper.dart';
 
-@MappableClass(
-  caseStyle: CaseStyle.snakeCase,
-)
+@MappableClass()
 class Collection with CollectionMappable {
   final String id;
   final String title;

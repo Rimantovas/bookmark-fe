@@ -1,5 +1,4 @@
 import 'package:app/application/usecases/save_access_token.dart';
-import 'package:app/data/repositories/secure_storage_repository.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:auth0_flutter/auth0_flutter_web.dart';
@@ -9,9 +8,6 @@ import 'package:get_it/get_it.dart';
 
 class AuthBloc extends Cubit<AuthState> {
   AuthBloc() : super(AuthState(isLoading: false));
-
-  late final SecureStorageRepository _secureStorageRepository =
-      GetIt.I<SecureStorageRepository>();
 
   late final UserBloc _userBloc = GetIt.I<UserBloc>();
 
@@ -32,17 +28,11 @@ class AuthBloc extends Cubit<AuthState> {
           redirectUrl: 'bookmarker://redirect',
         );
 
-    print(1);
     final accessToken = credentials.accessToken;
-    print('2 $accessToken');
 
     await SaveAccessToken().call(accessToken);
 
-    print(4);
-
     await _userBloc.initUser();
-
-    print(5);
 
     emit(state.copyWith(isLoading: false));
   }

@@ -2,14 +2,17 @@ import 'package:app/application/usecases/get_access_token.dart';
 import 'package:app/data/repositories/collections_repository.dart';
 import 'package:app/data/repositories/secure_storage_repository.dart';
 import 'package:app/data/repositories/social_app_repository.dart';
+import 'package:app/data/repositories/tag_repository.dart';
 import 'package:app/data/repositories/user_repository.dart';
+import 'package:app/domain/enums/user_role.dart';
 import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/router.dart';
 import 'package:app/presentation/common/utils/theme.dart';
 import 'package:app/presentation/home/bloc/home_bloc.dart';
+import 'package:app/presentation/tags/bloc/tags_bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
@@ -21,7 +24,7 @@ final dio = Dio(
   ),
 );
 
-final appRouter = AppRouter();
+final router = AppRouter();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,10 +50,12 @@ class _MyAppState extends State<MyApp> {
     getIt.registerSingleton<UserRepository>(UserRepository());
     getIt.registerSingleton<SocialAppRepository>(SocialAppRepository());
     getIt.registerSingleton<CollectionsRepository>(CollectionsRepository());
+    getIt.registerSingleton<TagRepository>(TagRepository());
 
     getIt.registerSingleton<UserBloc>(UserBloc());
     getIt.registerSingleton<HomeBloc>(HomeBloc());
     getIt.registerSingleton<CatalogBloc>(CatalogBloc());
+    getIt.registerSingleton<TagsBloc>(TagsBloc());
     initUser();
   }
 
@@ -72,6 +77,9 @@ class _MyAppState extends State<MyApp> {
         BlocListener<UserBloc, UserState>(
           bloc: GetIt.I<UserBloc>(),
           listener: (context, state) {
+            if (state is UserSuccess && state.user.role == UserRole.premium) {
+              GetIt.I<TagsBloc>().getTags();
+            }
             GetIt.I<CatalogBloc>().init();
           },
           listenWhen: (previous, current) {
@@ -82,9 +90,9 @@ class _MyAppState extends State<MyApp> {
           },
         ),
       ],
-      child: MaterialApp.router(
+      child: CupertinoApp.router(
         theme: AppTheme.themeData(),
-        routerConfig: appRouter.router,
+        routerConfig: router.router,
       ),
     );
   }

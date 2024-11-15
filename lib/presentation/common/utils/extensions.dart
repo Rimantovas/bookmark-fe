@@ -1,7 +1,6 @@
 import 'package:app/presentation/common/utils/colors.dart';
 import 'package:app/presentation/common/utils/routes.dart';
 import 'package:app/presentation/common/utils/styles.dart';
-import 'package:app/presentation/common/utils/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,9 +20,9 @@ extension ContextExtensions on BuildContext {
         extra: route.extra,
       );
 
-  AppColors get colors => Theme.of(this).extension<AppThemeExtension>()!.colors;
+  AppColors get colors => AppColors();
 
-  AppStyles get styles => Theme.of(this).extension<AppThemeExtension>()!.styles;
+  AppStyles get styles => AppStyles();
 }
 
 extension IntX on int {

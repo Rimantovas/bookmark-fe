@@ -29,13 +29,12 @@ class CollectionMapper extends ClassMapperBase<Collection> {
   static const Field<Collection, bool> _f$private = Field('private', _$private);
   static DateTime _$createdAt(Collection v) => v.createdAt;
   static const Field<Collection, DateTime> _f$createdAt =
-      Field('createdAt', _$createdAt, key: 'created_at');
+      Field('createdAt', _$createdAt);
   static DateTime _$updatedAt(Collection v) => v.updatedAt;
   static const Field<Collection, DateTime> _f$updatedAt =
-      Field('updatedAt', _$updatedAt, key: 'updated_at');
+      Field('updatedAt', _$updatedAt);
   static String _$userId(Collection v) => v.userId;
-  static const Field<Collection, String> _f$userId =
-      Field('userId', _$userId, key: 'user_id');
+  static const Field<Collection, String> _f$userId = Field('userId', _$userId);
   static List<Bookmark>? _$bookmarks(Collection v) => v.bookmarks;
   static const Field<Collection, List<Bookmark>> _f$bookmarks =
       Field('bookmarks', _$bookmarks, opt: true);

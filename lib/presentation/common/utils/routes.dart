@@ -29,3 +29,21 @@ class AuthRoute extends AppRoute {
 class HomeRoute extends AppRoute {
   HomeRoute() : super(name: 'home', path: '/', params: {}, queryParams: {});
 }
+
+class CreateTagRoute extends AppRoute {
+  CreateTagRoute()
+      : super(
+            name: 'create_tag',
+            path: '/create_tag',
+            params: {},
+            queryParams: {});
+}
+
+class CreateBookmarkRoute extends AppRoute {
+  CreateBookmarkRoute()
+      : super(
+            name: 'create_bookmark',
+            path: '/create_bookmark',
+            params: {},
+            queryParams: {});
+}

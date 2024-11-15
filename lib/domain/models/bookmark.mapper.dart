@@ -38,22 +38,21 @@ class BookmarkMapper extends ClassMapperBase<Bookmark> {
   static const Field<Bookmark, List<Tag>> _f$tags = Field('tags', _$tags);
   static String? _$appId(Bookmark v) => v.appId;
   static const Field<Bookmark, String> _f$appId =
-      Field('appId', _$appId, key: 'app_id', opt: true);
+      Field('appId', _$appId, opt: true);
   static String _$collectionId(Bookmark v) => v.collectionId;
   static const Field<Bookmark, String> _f$collectionId =
-      Field('collectionId', _$collectionId, key: 'collection_id');
+      Field('collectionId', _$collectionId);
   static String _$userId(Bookmark v) => v.userId;
-  static const Field<Bookmark, String> _f$userId =
-      Field('userId', _$userId, key: 'user_id');
+  static const Field<Bookmark, String> _f$userId = Field('userId', _$userId);
   static Map<String, dynamic>? _$metadata(Bookmark v) => v.metadata;
   static const Field<Bookmark, Map<String, dynamic>> _f$metadata =
       Field('metadata', _$metadata, opt: true);
   static DateTime _$createdAt(Bookmark v) => v.createdAt;
   static const Field<Bookmark, DateTime> _f$createdAt =
-      Field('createdAt', _$createdAt, key: 'created_at');
+      Field('createdAt', _$createdAt);
   static DateTime _$updatedAt(Bookmark v) => v.updatedAt;
   static const Field<Bookmark, DateTime> _f$updatedAt =
-      Field('updatedAt', _$updatedAt, key: 'updated_at');
+      Field('updatedAt', _$updatedAt);
 
   @override
   final MappableFields<Bookmark> fields = const {

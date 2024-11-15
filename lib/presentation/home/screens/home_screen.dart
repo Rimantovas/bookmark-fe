@@ -5,7 +5,7 @@ import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/home/widgets/collection_grid.dart';
 import 'package:app/presentation/home/widgets/social_app_grid.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -14,11 +14,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
+    return CupertinoPageScaffold(
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text('Home'),
       ),
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [

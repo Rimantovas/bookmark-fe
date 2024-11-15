@@ -41,19 +41,27 @@ class UserBloc extends Cubit<UserState> {
 
 abstract class UserState {
   List<Collection> get collections;
+  User get user;
 }
 
 class UserInitial extends UserState {
   @override
   List<Collection> get collections => [];
+
+  @override
+  User get user => User.mock();
 }
 
 class UserLoading extends UserState {
   @override
   List<Collection> get collections => [];
+
+  @override
+  User get user => User.mock();
 }
 
 class UserSuccess extends UserState {
+  @override
   final User user;
 
   @override
@@ -66,12 +74,17 @@ class UserGuest extends UserState {
   @override
   final List<Collection> collections;
 
+  @override
+  User get user => User.guest();
+
   UserGuest({required this.collections});
 }
 
 class UserError extends UserState {
   final String message;
 
+  @override
+  User get user => User.mock();
   @override
   List<Collection> get collections => [];
 

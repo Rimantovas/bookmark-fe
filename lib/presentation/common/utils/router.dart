@@ -1,10 +1,13 @@
 import 'package:app/presentation/auth/screens/auth_screen.dart';
+import 'package:app/presentation/bookmarks/screens/create_bookmark_screen.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/router_listenable.dart';
 import 'package:app/presentation/common/utils/routes.dart';
 import 'package:app/presentation/home/screens/home_wrapper.dart';
+import 'package:app/presentation/tags/screens/create_tag_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smooth_sheets/smooth_sheets.dart';
 
 class AppRouter {
   late final GoRouter router = GoRouter(
@@ -21,6 +24,28 @@ class AppRouter {
         path: '/',
         name: 'home',
         builder: (context, state) => const HomeWrapperScreen(),
+        routes: [
+          GoRoute(
+            path: '/create_tag',
+            name: 'create_tag',
+            pageBuilder: (context, state) {
+              return const CupertinoModalSheetPage(
+                swipeDismissible: true,
+                child: CreateTagScreen(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/create_bookmark',
+            name: 'create_bookmark',
+            pageBuilder: (context, state) {
+              return const CupertinoModalSheetPage(
+                swipeDismissible: true,
+                child: CreateBookmarkScreen(),
+              );
+            },
+          ),
+        ],
       ),
     ],
     redirect: (context, state) {

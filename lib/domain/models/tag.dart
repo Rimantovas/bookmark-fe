@@ -1,6 +1,7 @@
 import 'package:app/domain/enums/tag_icon.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
+import 'package:mock_data/mock_data.dart';
 
 part 'tag.mapper.dart';
 
@@ -20,6 +21,8 @@ class Tag with TagMappable {
     required this.color,
     this.icon,
   });
+
+  Tag.mock() : this(id: mockUUID(), name: mockName(), color: Colors.red);
 }
 
 class ColorHook extends MappingHook {
