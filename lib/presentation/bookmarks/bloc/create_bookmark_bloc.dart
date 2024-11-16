@@ -36,6 +36,10 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
       state.collectionController
           .select(GetIt.I<UserBloc>().state.collections.first, true);
     }
+
+    state.tagsController.addListener(() {
+      emit(state.copyWith(tags: state.tagsController.values.toList()));
+    });
   }
 
   late final bookmarkRepository = GetIt.I<BookmarkRepository>();
@@ -47,6 +51,7 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
     state.titleController.dispose();
     state.descriptionController.dispose();
     state.collectionController.dispose();
+    state.tagsController.dispose();
     return super.close();
   }
 
@@ -97,6 +102,10 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
     emit(state.copyWith(tags: tags));
   }
 
+  void updateAppId(String appId) {
+    emit(state.copyWith(appId: appId));
+  }
+
   Future<void> createBookmark() async {
     if (state.url.isEmpty ||
         state.title.isEmpty ||
@@ -143,6 +152,7 @@ class CreateBookmarkState {
   final TextEditingController titleController;
   final TextEditingController descriptionController;
   final FRadioSelectGroupController<Collection> collectionController;
+  final FMultiSelectGroupController<Tag> tagsController;
 
   CreateBookmarkState({
     required this.isLoading,
@@ -159,6 +169,7 @@ class CreateBookmarkState {
     required this.titleController,
     required this.descriptionController,
     required this.collectionController,
+    required this.tagsController,
   });
 
   CreateBookmarkState.initial()
@@ -177,6 +188,7 @@ class CreateBookmarkState {
           titleController: TextEditingController(),
           descriptionController: TextEditingController(),
           collectionController: FRadioSelectGroupController<Collection>(),
+          tagsController: FMultiSelectGroupController<Tag>(),
         );
 
   CreateBookmarkState copyWith({
@@ -194,6 +206,7 @@ class CreateBookmarkState {
     TextEditingController? titleController,
     TextEditingController? descriptionController,
     FRadioSelectGroupController<Collection>? collectionController,
+    FMultiSelectGroupController<Tag>? tagsController,
   }) {
     return CreateBookmarkState(
       isLoading: isLoading ?? this.isLoading,
@@ -211,6 +224,7 @@ class CreateBookmarkState {
       descriptionController:
           descriptionController ?? this.descriptionController,
       collectionController: collectionController ?? this.collectionController,
+      tagsController: tagsController ?? this.tagsController,
     );
   }
 }

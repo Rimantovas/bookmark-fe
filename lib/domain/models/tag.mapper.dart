@@ -26,9 +26,11 @@ class TagMapper extends ClassMapperBase<Tag> {
   static String _$name(Tag v) => v.name;
   static const Field<Tag, String> _f$name = Field('name', _$name);
   static Color _$color(Tag v) => v.color;
-  static const Field<Tag, Color> _f$color = Field('color', _$color);
+  static const Field<Tag, Color> _f$color =
+      Field('color', _$color, hook: ColorHook());
   static TagIcon? _$icon(Tag v) => v.icon;
-  static const Field<Tag, TagIcon> _f$icon = Field('icon', _$icon, opt: true);
+  static const Field<Tag, TagIcon> _f$icon = Field('icon', _$icon,
+      opt: true, hook: SafeEnumHook<TagIcon>(TagIcon.values));
 
   @override
   final MappableFields<Tag> fields = const {
@@ -38,8 +40,6 @@ class TagMapper extends ClassMapperBase<Tag> {
     #icon: _f$icon,
   };
 
-  @override
-  final MappingHook hook = const ColorHook();
   static Tag _instantiate(DecodingData data) {
     return Tag(
         id: data.dec(_f$id),

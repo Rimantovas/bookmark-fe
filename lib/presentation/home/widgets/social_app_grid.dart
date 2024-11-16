@@ -37,21 +37,34 @@ class SocialAppGrid extends StatelessWidget {
 }
 
 class SocialAppCard extends StatelessWidget {
-  const SocialAppCard({super.key, required this.socialApp});
+  const SocialAppCard({
+    super.key,
+    required this.socialApp,
+    this.selected = false,
+    this.onTap,
+  });
 
   final SocialApp socialApp;
+  final bool selected;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: context.colors.grey,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Image.network(socialApp.image),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: context.colors.grey,
+          border: selected
+              ? Border.all(color: context.colors.dark, width: 2)
+              : null,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Image.network(socialApp.image),
+          ),
         ),
       ),
     );

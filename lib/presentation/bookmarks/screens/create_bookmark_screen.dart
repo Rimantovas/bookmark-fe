@@ -1,11 +1,15 @@
 import 'package:app/domain/models/collection.dart';
+import 'package:app/domain/models/social_app.dart';
 import 'package:app/domain/models/tag.dart';
 import 'package:app/presentation/bookmarks/bloc/create_bookmark_bloc.dart';
+import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/widgets/animated_border.dart';
 import 'package:app/presentation/common/widgets/app_sheet.dart';
 import 'package:app/presentation/common/widgets/cta_button.dart';
+import 'package:app/presentation/home/widgets/social_app_grid.dart';
+import 'package:app/presentation/tags/bloc/tags_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +27,10 @@ class CreateBookmarkScreen extends StatelessWidget {
         builder: (context, state) {
           return AppModalSheet(
             title: 'Create Bookmark',
+            actionTitle: 'Create',
+            onAction: () {
+              context.read<CreateBookmarkBloc>().createBookmark();
+            },
             child: PageView(
               controller: state.controller,
               physics: const NeverScrollableScrollPhysics(),
@@ -97,6 +105,42 @@ class _Step2Screen extends StatelessWidget {
                 maxLines: 5,
               ),
               16.heightBox,
+              BlocSelector<CatalogBloc, CatalogState, List<SocialApp>>(
+                bloc: GetIt.I<CatalogBloc>(),
+                selector: (state) => state.socialApps,
+                builder: (context, socialApps) {
+                  if (socialApps.isEmpty) return const SizedBox();
+
+                  return FLabel(
+                    axis: Axis.vertical,
+                    label: const Text('Social App (optional)'),
+                    child: SizedBox(
+                      height: 80,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: socialApps.length,
+                        separatorBuilder: (_, __) => 8.widthBox,
+                        itemBuilder: (context, index) {
+                          final app = socialApps[index];
+                          return SizedBox(
+                            width: 80,
+                            child: SocialAppCard(
+                              socialApp: app,
+                              selected: state.appId == app.id,
+                              onTap: () {
+                                context
+                                    .read<CreateBookmarkBloc>()
+                                    .updateAppId(app.id);
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+              16.heightBox,
               FLabel(
                 axis: Axis.vertical,
                 label: const Text('Collection'),
@@ -137,10 +181,47 @@ class _Step2Screen extends StatelessWidget {
                 ),
               ),
               16.heightBox,
-              _TagSelector(
-                selectedTags: state.tags,
-                onTagsSelected: (tags) =>
-                    context.read<CreateBookmarkBloc>().updateTags(tags),
+              BlocSelector<TagsBloc, TagsState, List<Tag>>(
+                bloc: GetIt.I<TagsBloc>(),
+                selector: (state) => state.tags,
+                builder: (context, tags) {
+                  return FLabel(
+                    axis: Axis.vertical,
+                    label: const Text('Tags'),
+                    child: FSelectTileGroup<Tag>(
+                      controller: state.tagsController,
+                      description: const Text('Select tags for your bookmark'),
+                      children: tags
+                          .map(
+                            (tag) => FSelectTile(
+                              title: Text(tag.name),
+                              suffixIcon: tag.icon != null
+                                  ? Icon(tag.icon!.icon)
+                                  : Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        color: tag.color,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                              // checkedIcon: tag.icon != null
+                              //     ? Icon(tag.icon!.icon)
+                              //     : Container(
+                              //         width: 20,
+                              //         height: 20,
+                              //         decoration: BoxDecoration(
+                              //           color: tag.color,
+                              //           shape: BoxShape.circle,
+                              //         ),
+                              //       ),
+                              value: tag,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

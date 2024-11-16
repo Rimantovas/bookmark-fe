@@ -7,11 +7,15 @@ class AppModalSheet extends StatelessWidget {
     super.key,
     required this.child,
     required this.title,
+    this.actionTitle,
+    this.onAction,
   });
 
   final Widget child;
 
   final String title;
+  final String? actionTitle;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +33,12 @@ class AppModalSheet extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
               child: const Text('Cancel'),
             ),
-            trailing: CupertinoButton(
-              onPressed: () =>
-                  Navigator.popUntil(context, (route) => route.isFirst),
-              child: const Text('Save'),
-            ),
+            trailing: actionTitle != null
+                ? CupertinoButton(
+                    onPressed: onAction,
+                    child: Text(actionTitle!),
+                  )
+                : null,
           ),
           body: SizedBox.expand(
             child: child,

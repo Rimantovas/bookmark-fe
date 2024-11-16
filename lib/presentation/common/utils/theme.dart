@@ -44,6 +44,7 @@ class AppTheme {
         titleTextStyle: textStyles.button1.copyWith(color: colors.dark),
         elevation: 0,
       ),
+      iconTheme: IconThemeData(color: colors.dark),
       dividerTheme: DividerThemeData(
         color: colors.grey,
       ),

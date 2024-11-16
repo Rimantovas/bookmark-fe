@@ -2,6 +2,7 @@ import 'package:app/domain/models/tag.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/widgets/tappable.dart';
 import 'package:flutter/material.dart';
+import 'package:forui/forui.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class TagTile extends StatelessWidget {
@@ -18,12 +19,7 @@ class TagTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: context.colors.grey,
-        borderRadius: BorderRadius.circular(12),
-      ),
+    return FCard(
       child: Row(
         children: [
           if (tag.icon != null)
@@ -47,7 +43,7 @@ class TagTile extends StatelessWidget {
               onTap: onEdit,
               child: const Icon(HugeIcons.strokeRoundedEdit01, size: 20),
             ),
-          4.widthBox,
+          8.widthBox,
           if (onDelete != null)
             Tappable.animated(
               onTap: onDelete,

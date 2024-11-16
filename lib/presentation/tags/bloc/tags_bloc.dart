@@ -11,11 +11,15 @@ class TagsBloc extends Cubit<TagsState> {
   final _tagRepository = GetIt.I<TagRepository>();
 
   Future<void> getTags() async {
+    print('1');
     emit(state.copyWith(isLoading: true));
+
     try {
       final tags = await _tagRepository.getTags();
+      print('2 ${tags.length}');
       emit(state.copyWith(tags: tags, isLoading: false));
     } catch (e) {
+      print('3 $e');
       emit(state.copyWith(isLoading: false));
     }
   }
@@ -71,6 +75,10 @@ class TagsBloc extends Cubit<TagsState> {
       emit(state.copyWith(tags: oldTags));
       // Handle error (show snackbar, etc.)
     }
+  }
+
+  void addTag(Tag tag) {
+    emit(state.copyWith(tags: [...state.tags, tag]));
   }
 }
 

@@ -50,6 +50,7 @@ dependencies:
   mock_data: ^2.0.1
   smooth_sheets: ^0.10.2
   forui: ^0.7.0
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:
