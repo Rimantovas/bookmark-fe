@@ -7,14 +7,16 @@ import 'package:app/data/repositories/user_repository.dart';
 import 'package:app/domain/enums/user_role.dart';
 import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
+import 'package:app/presentation/common/utils/colors.dart';
 import 'package:app/presentation/common/utils/router.dart';
 import 'package:app/presentation/common/utils/theme.dart';
 import 'package:app/presentation/home/bloc/home_bloc.dart';
 import 'package:app/presentation/tags/bloc/tags_bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
 
 final dio = Dio(
@@ -77,7 +79,7 @@ class _MyAppState extends State<MyApp> {
         BlocListener<UserBloc, UserState>(
           bloc: GetIt.I<UserBloc>(),
           listener: (context, state) {
-            if (state is UserSuccess && state.user.role == UserRole.premium) {
+            if (state.user.role == UserRole.premium) {
               GetIt.I<TagsBloc>().getTags();
             }
             GetIt.I<CatalogBloc>().init();
@@ -90,8 +92,18 @@ class _MyAppState extends State<MyApp> {
           },
         ),
       ],
-      child: CupertinoApp.router(
+      child: MaterialApp.router(
         theme: AppTheme.themeData(),
+        builder: (context, child) => FTheme(
+          data: FThemes.zinc.light.copyWith(
+            scaffoldStyle: FScaffoldStyle(
+              contentPadding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+              backgroundColor: AppColors().white,
+              footerDecoration: const BoxDecoration(),
+            ),
+          ),
+          child: child!,
+        ),
         routerConfig: router.router,
       ),
     );

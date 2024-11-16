@@ -2,7 +2,6 @@ import 'package:app/presentation/common/utils/colors.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/utils/styles.dart';
 import 'package:app/presentation/common/utils/theme_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -29,30 +28,11 @@ class AppTheme {
         transitionBuilder: AnimatedSwitcher.defaultTransitionBuilder,
       );
 
-  static CupertinoThemeData themeData() {
+  static ThemeData themeData() {
     final textStyles = AppStyles();
     final colors = AppColors();
 
-    return CupertinoThemeData(
-      brightness: Brightness.light,
-      primaryColor: colors.primary,
-      scaffoldBackgroundColor: colors.white,
-      textTheme: CupertinoTextThemeData(
-        primaryColor: colors.dark,
-        textStyle: textStyles.body1.copyWith(color: colors.dark),
-        tabLabelTextStyle: textStyles.button1.copyWith(color: colors.dark),
-        actionTextStyle: textStyles.button2.copyWith(color: colors.dark),
-        navTitleTextStyle: textStyles.button1.copyWith(color: colors.dark),
-        navLargeTitleTextStyle: textStyles.h1.copyWith(color: colors.dark),
-        dateTimePickerTextStyle: textStyles.body1.copyWith(color: colors.dark),
-        pickerTextStyle: textStyles.body1.copyWith(color: colors.dark),
-      ),
-      barBackgroundColor: colors.white,
-      primaryContrastingColor: colors.dark,
-    );
-
-    return MaterialBasedCupertinoThemeData(
-        materialTheme: ThemeData(
+    return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
       appBarTheme: AppBarTheme(
@@ -151,6 +131,6 @@ class AppTheme {
           styles: textStyles,
         ),
       ],
-    ));
+    );
   }
 }

@@ -8,9 +8,9 @@ import 'package:app/presentation/home/screens/home_screen.dart';
 import 'package:app/presentation/profile/screens/profile_screen.dart';
 import 'package:app/presentation/search/screens/search_screen.dart';
 import 'package:app/presentation/tags/screens/tags_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
@@ -54,27 +54,22 @@ class _HomeWrapperScreenState extends State<HomeWrapperScreen>
         builder: (context, pageNr) {
           return CupertinoStackedTransition(
             cornerRadius: Tween(begin: 0.0, end: 16.0),
-            child: CupertinoPageScaffold(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: const [
-                        HomeScreen(),
-                        SearchScreen(),
-                        TagsScreen(),
-                        ProfileScreen(),
-                      ],
-                    ),
-                  ),
-                  _BuildBottomNavigationBar(
-                    pageNr: pageNr,
-                    onTap: (value) {
-                      GetIt.I<HomeBloc>().changePage(value);
-                    },
-                  ),
+            child: FScaffold(
+              contentPad: false,
+              content: TabBarView(
+                controller: _tabController,
+                children: const [
+                  HomeScreen(),
+                  SearchScreen(),
+                  TagsScreen(),
+                  ProfileScreen(),
                 ],
+              ),
+              footer: _BuildBottomNavigationBar(
+                pageNr: pageNr,
+                onTap: (value) {
+                  GetIt.I<HomeBloc>().changePage(value);
+                },
               ),
             ),
           );

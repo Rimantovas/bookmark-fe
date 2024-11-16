@@ -21,7 +21,7 @@ class CollectionsRepository {
   Future<Collection> createCollection(Collection collection) async {
     final response = await dio.post(
       _kBasePath,
-      data: collection.toJson(),
+      data: collection.toMap(),
     );
     return CollectionMapper.fromMap(response.data);
   }
@@ -32,7 +32,7 @@ class CollectionsRepository {
   ) async {
     final response = await dio.put(
       '$_kBasePath/$id',
-      data: collection.toJson(),
+      data: collection.toMap(),
     );
     return CollectionMapper.fromMap(response.data);
   }

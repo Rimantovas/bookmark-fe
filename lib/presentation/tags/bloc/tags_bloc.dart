@@ -14,20 +14,9 @@ class TagsBloc extends Cubit<TagsState> {
     emit(state.copyWith(isLoading: true));
     try {
       final tags = await _tagRepository.getTags();
-      emit(
-        state.copyWith(
-          tags: tags,
-          isLoading: false,
-          isInitialized: true,
-        ),
-      );
+      emit(state.copyWith(tags: tags, isLoading: false));
     } catch (e) {
-      emit(
-        state.copyWith(
-          isLoading: false,
-          isInitialized: true,
-        ),
-      );
+      emit(state.copyWith(isLoading: false));
     }
   }
 
@@ -88,23 +77,19 @@ class TagsBloc extends Cubit<TagsState> {
 class TagsState {
   final List<Tag> tags;
   final bool isLoading;
-  final bool isInitialized;
 
   const TagsState({
     this.tags = const [],
     this.isLoading = false,
-    this.isInitialized = false,
   });
 
   TagsState copyWith({
     List<Tag>? tags,
     bool? isLoading,
-    bool? isInitialized,
   }) {
     return TagsState(
       tags: tags ?? this.tags,
       isLoading: isLoading ?? this.isLoading,
-      isInitialized: isInitialized ?? this.isInitialized,
     );
   }
 }

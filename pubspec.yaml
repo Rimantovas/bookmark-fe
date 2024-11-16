@@ -49,6 +49,7 @@ dependencies:
   mesh: ^0.4.1
   mock_data: ^2.0.1
   smooth_sheets: ^0.10.2
+  forui: ^0.7.0
 
 dev_dependencies:
   flutter_test:

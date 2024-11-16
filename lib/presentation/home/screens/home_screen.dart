@@ -5,8 +5,9 @@ import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/home/widgets/collection_grid.dart';
 import 'package:app/presentation/home/widgets/social_app_grid.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,12 +15,17 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('Home'),
+    return FScaffold(
+      header: const FHeader(
+        title: Text('Home'),
+        actions: [
+          // FHeaderAction(
+          //   icon: FAssets.icons.ellipsis,
+          //   onPress: () {},
+          // ),
+        ],
       ),
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      content: SingleChildScrollView(
         child: Column(
           children: [
             BlocSelector<CatalogBloc, CatalogState, List<SocialApp>>(

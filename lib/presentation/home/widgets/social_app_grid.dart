@@ -18,6 +18,7 @@ class SocialAppGrid extends StatelessWidget {
         ),
         8.heightBox,
         GridView.builder(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           semanticChildCount: socialApps.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

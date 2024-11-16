@@ -17,12 +17,12 @@ class ProfileScreen extends StatelessWidget {
       builder: (context, state) {
         return AppLoader(
           isLoading: !state.isLoggedIn,
-          child: CupertinoPageScaffold(
+          child: Scaffold(
             backgroundColor: CupertinoColors.systemGroupedBackground,
-            navigationBar: const CupertinoNavigationBar(
-              middle: Text('Profile'),
+            appBar: AppBar(
+              title: const Text('Profile'),
             ),
-            child: SafeArea(
+            body: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
                   children: [

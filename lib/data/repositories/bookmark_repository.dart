@@ -10,7 +10,7 @@ class BookmarkRepository {
   Future<Bookmark> createBookmark(CreateBookmarkDto dto) async {
     final response = await dio.post(
       _kBasePath,
-      data: dto.toJson(),
+      data: dto.toMap(),
     );
     return BookmarkMapper.fromMap(response.data);
   }
@@ -36,7 +36,7 @@ class BookmarkRepository {
   ) async {
     final response = await dio.put(
       '$_kBasePath/$id',
-      data: dto.toJson(),
+      data: dto.toMap(),
     );
     return BookmarkMapper.fromMap(response.data);
   }

@@ -23,6 +23,7 @@ class CollectionGrid extends StatelessWidget {
         ),
         8.heightBox,
         GridView.custom(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           semanticChildCount: collections.length,
           gridDelegate: SliverQuiltedGridDelegate(

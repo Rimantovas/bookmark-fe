@@ -6,8 +6,9 @@ import 'package:app/presentation/common/widgets/loader.dart';
 import 'package:app/presentation/common/widgets/tappable.dart';
 import 'package:app/presentation/tags/bloc/tags_bloc.dart';
 import 'package:app/presentation/tags/widgets/tag_tile.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -24,33 +25,31 @@ class TagsScreen extends StatelessWidget {
 
         return AppLoader(
           isLoading: state.isLoading,
-          child: CupertinoPageScaffold(
-            navigationBar: const CupertinoNavigationBar(
-              middle: Text('Tags'),
+          child: FScaffold(
+            header: const FHeader(
+              title: Text('Tags'),
             ),
-            child: SafeArea(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const _CreateTagTile(),
-                    if (tags.isNotEmpty) ...[
-                      16.heightBox,
-                      ...tags.map((tag) => Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: TagTile(
-                              tag: tag,
-                              onEdit: () {
-                                // TODO: Implement edit dialog
-                              },
-                              onDelete: () {
-                                GetIt.I<TagsBloc>().deleteTag(tag.id);
-                              },
-                            ),
-                          )),
-                    ],
+            content: SingleChildScrollView(
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  const _CreateTagTile(),
+                  if (tags.isNotEmpty) ...[
+                    16.heightBox,
+                    ...tags.map((tag) => Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: TagTile(
+                            tag: tag,
+                            onEdit: () {
+                              // TODO: Implement edit dialog
+                            },
+                            onDelete: () {
+                              GetIt.I<TagsBloc>().deleteTag(tag.id);
+                            },
+                          ),
+                        )),
                   ],
-                ),
+                ],
               ),
             ),
           ),
