@@ -1,8 +1,11 @@
 import 'package:app/data/dto/create_bookmark_dto.dart';
 import 'package:app/data/repositories/bookmark_repository.dart';
+import 'package:app/domain/models/collection.dart';
 import 'package:app/domain/models/tag.dart';
+import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
 
 enum CreateBookmarkStep {
@@ -21,9 +24,21 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
     state.descriptionController.addListener(() {
       emit(state.copyWith(description: state.descriptionController.text));
     });
+
+    state.collectionController.addListener(() {
+      emit(state.copyWith(
+          collectionId:
+              state.collectionController.values.firstOrNull?.id ?? ''));
+    });
+
+    final collections = GetIt.I<UserBloc>().state.collections;
+    if (collections.isNotEmpty) {
+      state.collectionController
+          .select(GetIt.I<UserBloc>().state.collections.first, true);
+    }
   }
 
-  late final _bookmarkRepository = GetIt.I<BookmarkRepository>();
+  late final bookmarkRepository = GetIt.I<BookmarkRepository>();
 
   @override
   Future<void> close() {
@@ -31,6 +46,7 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
     state.urlController.dispose();
     state.titleController.dispose();
     state.descriptionController.dispose();
+    state.collectionController.dispose();
     return super.close();
   }
 
@@ -102,7 +118,7 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
         metadata: null, // Add if needed
       );
 
-      await _bookmarkRepository.createBookmark(dto);
+      await bookmarkRepository.createBookmark(dto);
       // Handle success (close modal, show success message, etc.)
     } catch (e) {
       // Handle error
@@ -126,6 +142,7 @@ class CreateBookmarkState {
   final TextEditingController urlController;
   final TextEditingController titleController;
   final TextEditingController descriptionController;
+  final FRadioSelectGroupController<Collection> collectionController;
 
   CreateBookmarkState({
     required this.isLoading,
@@ -141,6 +158,7 @@ class CreateBookmarkState {
     required this.urlController,
     required this.titleController,
     required this.descriptionController,
+    required this.collectionController,
   });
 
   CreateBookmarkState.initial()
@@ -158,6 +176,7 @@ class CreateBookmarkState {
           urlController: TextEditingController(),
           titleController: TextEditingController(),
           descriptionController: TextEditingController(),
+          collectionController: FRadioSelectGroupController<Collection>(),
         );
 
   CreateBookmarkState copyWith({
@@ -174,6 +193,7 @@ class CreateBookmarkState {
     TextEditingController? urlController,
     TextEditingController? titleController,
     TextEditingController? descriptionController,
+    FRadioSelectGroupController<Collection>? collectionController,
   }) {
     return CreateBookmarkState(
       isLoading: isLoading ?? this.isLoading,
@@ -190,6 +210,7 @@ class CreateBookmarkState {
       titleController: titleController ?? this.titleController,
       descriptionController:
           descriptionController ?? this.descriptionController,
+      collectionController: collectionController ?? this.collectionController,
     );
   }
 }

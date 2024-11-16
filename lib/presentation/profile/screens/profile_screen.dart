@@ -1,14 +1,19 @@
 import 'package:app/domain/models/user.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
+import 'package:app/presentation/common/utils/colors.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/widgets/loader.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  Widget _tileIcon(IconData icon) =>
+      Icon(icon, size: 24, color: AppColors().dark);
 
   @override
   Widget build(BuildContext context) {
@@ -17,48 +22,49 @@ class ProfileScreen extends StatelessWidget {
       builder: (context, state) {
         return AppLoader(
           isLoading: !state.isLoggedIn,
-          child: Scaffold(
-            backgroundColor: CupertinoColors.systemGroupedBackground,
-            appBar: AppBar(
-              title: const Text('Profile'),
+          child: FScaffold(
+            header: const FHeader(
+              title: Text('Profile'),
             ),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _UserCard(user: state.user),
-                    12.heightBox,
-                    CupertinoListSection.insetGrouped(
-                      header: const Text('Account Settings'),
-                      children: [
-                        _SettingsRow(
-                          icon: CupertinoIcons.person,
-                          label: 'Change Username',
-                          value: state.user.username,
-                          onTap: () {
-                            // TODO: Implement username change
-                          },
-                        ),
-                        _SettingsRow(
-                          icon: CupertinoIcons.textformat,
-                          label: 'Change Name',
-                          value: state.user.name,
-                          onTap: () {
-                            // TODO: Implement name change
-                          },
-                        ),
-                        _SettingsRow(
-                          icon: CupertinoIcons.star,
-                          label: 'Change Role',
-                          value: state.user.role.name.toUpperCase(),
-                          onTap: () {
-                            // TODO: Implement role change
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+            content: SingleChildScrollView(
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  _UserCard(user: state.user),
+                  12.heightBox,
+                  FTileGroup(
+                    label: const Text('Account Settings'),
+                    children: [
+                      FTile(
+                        prefixIcon: _tileIcon(HugeIcons.strokeRoundedUser),
+                        title: const Text('Change Username'),
+                        details: Text(state.user.username),
+                        suffixIcon: FIcon(FAssets.icons.chevronRight),
+                        onPress: () {
+                          // TODO: Implement username change
+                        },
+                      ),
+                      FTile(
+                        prefixIcon: _tileIcon(HugeIcons.strokeRoundedUser),
+                        title: const Text('Change Name'),
+                        details: Text(state.user.name),
+                        suffixIcon: FIcon(FAssets.icons.chevronRight),
+                        onPress: () {
+                          // TODO: Implement name change
+                        },
+                      ),
+                      FTile(
+                        prefixIcon: _tileIcon(HugeIcons.strokeRoundedArrowUp03),
+                        title: const Text('Change Role'),
+                        details: Text(state.user.role.name.toUpperCase()),
+                        suffixIcon: FIcon(FAssets.icons.chevronRight),
+                        onPress: () {
+                          // TODO: Implement role change
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
@@ -77,20 +83,7 @@ class _UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: CupertinoColors.systemBackground,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: CupertinoColors.systemGrey.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return FCard(
       child: Row(
         children: [
           _UserAvatar(user: user),
@@ -101,25 +94,21 @@ class _UserCard extends StatelessWidget {
               children: [
                 Text(
                   user.name,
-                  style: const TextStyle(
-                    fontSize: 20,
+                  style: context.styles.h5.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 4.heightBox,
                 Text(
                   '@${user.username}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: CupertinoColors.secondaryLabel,
+                  style: context.styles.body3.copyWith(
+                    color: context.colors.dark.withOpacity(0.6),
                   ),
                 ),
-                4.heightBox,
                 Text(
                   user.email,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: CupertinoColors.secondaryLabel,
+                  style: context.styles.body3.copyWith(
+                    color: context.colors.dark.withOpacity(0.6),
                   ),
                 ),
               ],
@@ -167,55 +156,9 @@ class _UserAvatar extends StatelessWidget {
       child: Text(
         _getInitials(),
         style: const TextStyle(
-          color: CupertinoColors.white,
+          color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-class _SettingsRow extends StatelessWidget {
-  const _SettingsRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoFormRow(
-      prefix: Icon(
-        icon,
-        color: CupertinoColors.systemBlue,
-        size: 24,
-      ),
-      child: CupertinoButton(
-        padding: EdgeInsets.zero,
-        onPressed: onTap,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              value,
-              style: const TextStyle(
-                color: CupertinoColors.secondaryLabel,
-              ),
-            ),
-            8.widthBox,
-            const Icon(
-              CupertinoIcons.chevron_right,
-              size: 16,
-              color: CupertinoColors.tertiaryLabel,
-            ),
-          ],
         ),
       ),
     );

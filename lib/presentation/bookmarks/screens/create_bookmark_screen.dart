@@ -1,6 +1,7 @@
 import 'package:app/domain/models/collection.dart';
 import 'package:app/domain/models/tag.dart';
 import 'package:app/presentation/bookmarks/bloc/create_bookmark_bloc.dart';
+import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/widgets/animated_border.dart';
 import 'package:app/presentation/common/widgets/app_sheet.dart';
@@ -8,6 +9,8 @@ import 'package:app/presentation/common/widgets/cta_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
+import 'package:get_it/get_it.dart';
 
 class CreateBookmarkScreen extends StatelessWidget {
   const CreateBookmarkScreen({super.key});
@@ -76,43 +79,71 @@ class _Step2Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CreateBookmarkBloc, CreateBookmarkState>(
       builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CupertinoTextField(
-              placeholder: 'Title',
-              onChanged: (value) =>
-                  context.read<CreateBookmarkBloc>().updateTitle(value),
-            ),
-            12.heightBox,
-            CupertinoTextField(
-              placeholder: 'Description (optional)',
-              onChanged: (value) =>
-                  context.read<CreateBookmarkBloc>().updateDescription(value),
-              minLines: 3,
-              maxLines: 5,
-            ),
-            16.heightBox,
-            _CollectionSelector(
-              selectedId: state.collectionId,
-              onSelected: (id) =>
-                  context.read<CreateBookmarkBloc>().updateCollectionId(id),
-            ),
-            16.heightBox,
-            _TagSelector(
-              selectedTags: state.tags,
-              onTagsSelected: (tags) =>
-                  context.read<CreateBookmarkBloc>().updateTags(tags),
-            ),
-            const Spacer(),
-            CTAButton(
-              text: 'Create',
-              isLoading: state.isLoading,
-              onPressed: () {
-                context.read<CreateBookmarkBloc>().createBookmark();
-              },
-            ),
-          ],
+        return FScaffold(
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FTextField(
+                hint: 'Title',
+                label: const Text('Title'),
+                controller: state.titleController,
+              ),
+              16.heightBox,
+              FTextField(
+                hint: 'Description (optional)',
+                label: const Text('Description'),
+                controller: state.descriptionController,
+                minLines: 3,
+                maxLines: 5,
+              ),
+              16.heightBox,
+              FLabel(
+                axis: Axis.vertical,
+                label: const Text('Collection'),
+                child: BlocSelector<UserBloc, UserState, List<Collection>>(
+                  bloc: GetIt.I<UserBloc>(),
+                  selector: (state) {
+                    return state.collections;
+                  },
+                  builder: (context, collections) {
+                    return FSelectMenuTile(
+                      groupController: state.collectionController,
+                      autoHide: true,
+                      validator: (value) =>
+                          value == null ? 'Select an item' : null,
+                      // prefixIcon: Icon(
+                      //   HugeIcons.strokeRoundedFolder01,
+                      //   color: context.colors.dark,
+                      // ),
+                      title: const Text('Collection'),
+                      details: ListenableBuilder(
+                        listenable: state.collectionController,
+                        builder: (context, _) => Text(
+                          state.collectionController.values.firstOrNull
+                                  ?.title ??
+                              'None',
+                        ),
+                      ),
+                      menu: collections
+                          .map(
+                            (c) => FSelectTile(
+                              title: Text(c.title),
+                              value: c,
+                            ),
+                          )
+                          .toList(),
+                    );
+                  },
+                ),
+              ),
+              16.heightBox,
+              _TagSelector(
+                selectedTags: state.tags,
+                onTagsSelected: (tags) =>
+                    context.read<CreateBookmarkBloc>().updateTags(tags),
+              ),
+            ],
+          ),
         );
       },
     );
