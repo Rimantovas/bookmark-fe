@@ -1,3 +1,5 @@
+import 'package:app/domain/models/tag.dart';
+
 abstract class AppRoute {
   const AppRoute({
     required this.name,
@@ -54,5 +56,15 @@ class CollectionBookmarksRoute extends AppRoute {
           name: 'collection_bookmarks',
           path: '/collections/:id',
           params: {'id': collectionId},
+        );
+}
+
+class UpdateTagRoute extends AppRoute {
+  UpdateTagRoute({required Tag tag})
+      : super(
+          name: 'update_tag',
+          path: '/update_tag',
+          params: {},
+          extra: tag,
         );
 }

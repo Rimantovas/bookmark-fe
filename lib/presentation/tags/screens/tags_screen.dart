@@ -47,7 +47,7 @@ class TagsScreen extends StatelessWidget {
                           child: TagTile(
                             tag: tag,
                             onEdit: () {
-                              // TODO: Implement edit dialog
+                              router.push(UpdateTagRoute(tag: tag));
                             },
                             onDelete: () {
                               GetIt.I<TagsBloc>().deleteTag(tag.id);

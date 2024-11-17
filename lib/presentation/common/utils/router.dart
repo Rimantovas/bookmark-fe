@@ -1,3 +1,4 @@
+import 'package:app/domain/models/tag.dart';
 import 'package:app/presentation/auth/screens/auth_screen.dart';
 import 'package:app/presentation/bookmarks/screens/collection_bookmarks_screen.dart';
 import 'package:app/presentation/bookmarks/screens/create_bookmark_screen.dart';
@@ -6,6 +7,7 @@ import 'package:app/presentation/common/utils/router_listenable.dart';
 import 'package:app/presentation/common/utils/routes.dart';
 import 'package:app/presentation/home/screens/home_wrapper.dart';
 import 'package:app/presentation/tags/screens/create_tag_screen.dart';
+import 'package:app/presentation/tags/screens/update_tag_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_sheets/smooth_sheets.dart';
@@ -52,6 +54,17 @@ class AppRouter {
             builder: (context, state) {
               final id = state.pathParameters['id']!;
               return CollectionBookmarksScreen(collectionId: id);
+            },
+          ),
+          GoRoute(
+            path: '/update_tag',
+            name: 'update_tag',
+            pageBuilder: (context, state) {
+              final tag = state.extra as Tag;
+              return CupertinoModalSheetPage(
+                swipeDismissible: true,
+                child: UpdateTagScreen(tag: tag),
+              );
             },
           ),
         ],

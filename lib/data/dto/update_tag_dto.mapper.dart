@@ -26,7 +26,7 @@ class UpdateTagDtoMapper extends ClassMapperBase<UpdateTagDto> {
       Field('name', _$name, opt: true);
   static Color? _$color(UpdateTagDto v) => v.color;
   static const Field<UpdateTagDto, Color> _f$color =
-      Field('color', _$color, opt: true);
+      Field('color', _$color, opt: true, hook: ColorHook());
   static TagIcon? _$icon(UpdateTagDto v) => v.icon;
   static const Field<UpdateTagDto, TagIcon> _f$icon =
       Field('icon', _$icon, opt: true);
@@ -38,8 +38,6 @@ class UpdateTagDtoMapper extends ClassMapperBase<UpdateTagDto> {
     #icon: _f$icon,
   };
 
-  @override
-  final MappingHook hook = const ColorHook();
   static UpdateTagDto _instantiate(DecodingData data) {
     return UpdateTagDto(
         name: data.dec(_f$name),
