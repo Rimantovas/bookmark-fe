@@ -1,4 +1,5 @@
 import 'package:app/application/usecases/get_access_token.dart';
+import 'package:app/data/repositories/bookmark_repository.dart';
 import 'package:app/data/repositories/collections_repository.dart';
 import 'package:app/data/repositories/secure_storage_repository.dart';
 import 'package:app/data/repositories/social_app_repository.dart';
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> {
     getIt.registerSingleton<SocialAppRepository>(SocialAppRepository());
     getIt.registerSingleton<CollectionsRepository>(CollectionsRepository());
     getIt.registerSingleton<TagRepository>(TagRepository());
+    getIt.registerSingleton<BookmarkRepository>(BookmarkRepository());
 
     getIt.registerSingleton<UserBloc>(UserBloc());
     getIt.registerSingleton<HomeBloc>(HomeBloc());

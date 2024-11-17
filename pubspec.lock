@@ -206,6 +206,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.6"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      sha256: "09bad715f418841f976c77db72d5398dc1253c21fb9c0c7f0b0b985860b2d58e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -466,6 +474,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  html:
+    dependency: "direct main"
+    description:
+      name: html
+      sha256: "1fc58edeaec4307368c60d59b7e15b9d658b57d7f3125098b6294153c75337ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.5"
   http:
     dependency: transitive
     description:
@@ -610,6 +626,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.15.0"
+  metadata_fetch:
+    dependency: "direct main"
+    description:
+      name: metadata_fetch
+      sha256: "24a713eaddbebea3dc3036a6c1d6f7c57e187fff5f0ef07be3e3ebbb7820c3e7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.2"
   mime:
     dependency: transitive
     description:
@@ -650,6 +674,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0+1"
+  ogp_data_extract:
+    dependency: "direct main"
+    description:
+      name: ogp_data_extract
+      sha256: "75258f23832f3cf0211fdc81d86391468b3c0d71c676d376d4513dbc33166a54"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4"
   package_config:
     dependency: transitive
     description:
@@ -871,6 +903,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  string_validator:
+    dependency: transitive
+    description:
+      name: string_validator
+      sha256: a278d038104aa2df15d0e09c47cb39a49f907260732067d0034dc2f2e4e2ac94
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   sugar:
     dependency: transitive
     description:

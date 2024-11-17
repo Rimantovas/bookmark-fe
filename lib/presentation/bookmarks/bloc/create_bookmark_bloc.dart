@@ -1,8 +1,11 @@
 import 'package:app/data/dto/create_bookmark_dto.dart';
 import 'package:app/data/repositories/bookmark_repository.dart';
+import 'package:app/data/services/url_metadata_service.dart';
 import 'package:app/domain/models/collection.dart';
 import 'package:app/domain/models/tag.dart';
+import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
@@ -42,7 +45,8 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
     });
   }
 
-  late final bookmarkRepository = GetIt.I<BookmarkRepository>();
+  final _urlMetadataService = UrlMetadataService();
+  final _bookmarkRepository = GetIt.I<BookmarkRepository>();
 
   @override
   Future<void> close() {
@@ -61,21 +65,38 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      // TODO: Replace with actual API call to fetch social graph info
-      // Mocking the response for now
-      await Future.delayed(const Duration(seconds: 1));
-      emit(state.copyWith(
-        title: 'Sample Title',
-        description: 'Sample Description',
-        imageUrl: 'https://example.com/image.jpg',
-        isLoading: false,
-      ));
+      final metadata = await _urlMetadataService.getMetadata(state.url);
 
-      state.controller.animateToPage(
-        CreateBookmarkStep.other.index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      if (metadata != null) {
+        state.titleController.text = metadata.title ?? '';
+        state.descriptionController.text = metadata.description ?? '';
+
+        final apps = GetIt.I<CatalogBloc>().state.socialApps;
+        print('metadata: ${metadata.domain} ${metadata.image}');
+        final appId = apps
+            .firstWhereOrNull(
+              (app) => app.website == metadata.domain,
+            )
+            ?.id;
+
+        emit(state.copyWith(
+          title: metadata.title ?? '',
+          description: metadata.description,
+          imageUrl: metadata.image,
+          appId: appId,
+          isLoading: false,
+          step: CreateBookmarkStep.other,
+        ));
+
+        state.controller.animateToPage(
+          CreateBookmarkStep.other.index,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      } else {
+        // Handle case when metadata couldn't be fetched
+        emit(state.copyWith(isLoading: false));
+      }
     } catch (e) {
       emit(state.copyWith(isLoading: false));
       // Handle error
@@ -127,7 +148,7 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
         metadata: null, // Add if needed
       );
 
-      await bookmarkRepository.createBookmark(dto);
+      await _bookmarkRepository.createBookmark(dto);
       // Handle success (close modal, show success message, etc.)
     } catch (e) {
       // Handle error

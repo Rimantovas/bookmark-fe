@@ -83,7 +83,7 @@ class _CollectionCardState extends State<CollectionCard>
                 ),
               ],
               child: HugeIcon(
-                icon: HugeIcons.strokeRoundedEllipseSelection,
+                icon: HugeIcons.strokeRoundedMoreVertical,
                 color: context.colors.dark,
               ),
             ),
@@ -104,11 +104,19 @@ class _CollectionImages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final placeholder = Container(
+      height: 150,
+      color: context.colors.grey,
+      child: Center(
+        child: HugeIcon(
+          icon: HugeIcons.strokeRoundedFolder02,
+          color: context.colors.dark,
+          size: 54,
+        ),
+      ),
+    );
     if (images.isEmpty) {
-      return Container(
-        height: 150,
-        color: Colors.red,
-      );
+      return placeholder;
     }
 
     return SizedBox(
@@ -173,10 +181,7 @@ class _CollectionImages extends StatelessWidget {
                 ],
               );
             default:
-              return Container(
-                height: 150,
-                color: Colors.red,
-              );
+              return placeholder;
           }
         },
       ),
