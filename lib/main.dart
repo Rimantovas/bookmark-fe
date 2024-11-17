@@ -64,6 +64,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> initUser() async {
     final accessToken = await GetAccessToken().call();
     if (accessToken != null) {
+      print('access token: $accessToken');
       final response = await GetIt.I<UserBloc>().initUser();
       // if (response) {
       //   print('go to home');

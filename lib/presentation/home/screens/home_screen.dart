@@ -3,7 +3,7 @@ import 'package:app/domain/models/social_app.dart';
 import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
-import 'package:app/presentation/home/widgets/collection_grid.dart';
+import 'package:app/presentation/home/widgets/collection_card.dart';
 import 'package:app/presentation/home/widgets/social_app_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,21 +18,14 @@ class HomeScreen extends StatelessWidget {
     return FScaffold(
       header: const FHeader(
         title: Text('Home'),
-        actions: [
-          // FHeaderAction(
-          //   icon: FAssets.icons.ellipsis,
-          //   onPress: () {},
-          // ),
-        ],
       ),
       content: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BlocSelector<CatalogBloc, CatalogState, List<SocialApp>>(
               bloc: GetIt.I<CatalogBloc>(),
-              selector: (state) {
-                return state.socialApps;
-              },
+              selector: (state) => state.socialApps,
               builder: (context, socialApps) {
                 return SocialAppGrid(socialApps: socialApps);
               },
@@ -40,11 +33,27 @@ class HomeScreen extends StatelessWidget {
             24.heightBox,
             BlocSelector<UserBloc, UserState, List<Collection>>(
               bloc: GetIt.I<UserBloc>(),
-              selector: (state) {
-                return state.collections;
-              },
+              selector: (state) => state.collections,
               builder: (context, collections) {
-                return CollectionGrid(collections: collections);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Collections',
+                      style: context.styles.button1,
+                    ),
+                    12.heightBox,
+                    ...collections.map((collection) => Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: CollectionCard(
+                            collection: collection,
+                            onTap: () {
+                              // TODO: Navigate to collection
+                            },
+                          ),
+                        )),
+                  ],
+                );
               },
             ),
           ],

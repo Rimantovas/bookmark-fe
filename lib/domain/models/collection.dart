@@ -12,8 +12,8 @@ class Collection with CollectionMappable {
   final DateTime createdAt;
   final DateTime updatedAt;
   final String userId;
-  final List<Bookmark>? bookmarks;
   final List<String> images;
+  final int bookmarksCount;
 
   Collection({
     required this.id,
@@ -23,7 +23,7 @@ class Collection with CollectionMappable {
     required this.updatedAt,
     required this.userId,
     required this.images,
-    this.bookmarks,
+    required this.bookmarksCount,
   });
 
   Collection.mock()
@@ -33,6 +33,6 @@ class Collection with CollectionMappable {
         createdAt = DateTime.now(),
         updatedAt = DateTime.now(),
         userId = mockUUID(),
-        bookmarks = [],
-        images = [];
+        images = [],
+        bookmarksCount = 0;
 }
