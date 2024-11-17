@@ -3,7 +3,6 @@ import 'package:app/presentation/bookmarks/widgets/bookmark_form.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/widgets/animated_border.dart';
 import 'package:app/presentation/common/widgets/app_sheet.dart';
-import 'package:app/presentation/common/widgets/cta_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,9 +17,10 @@ class CreateBookmarkScreen extends StatelessWidget {
         builder: (context, state) {
           return AppModalSheet(
             title: 'Create Bookmark',
-            actionTitle: state.step == CreateBookmarkStep.url ? null : 'Create',
+            actionTitle:
+                state.step == CreateBookmarkStep.url ? 'Next' : 'Create',
             onAction: state.step == CreateBookmarkStep.url
-                ? null
+                ? () => context.read<CreateBookmarkBloc>().fetchPreviewInfo()
                 : () {
                     context.read<CreateBookmarkBloc>().createBookmark();
                   },
@@ -55,16 +55,6 @@ class _Step1Screen extends StatelessWidget {
           children: [
             _MagicInput(
               controller: controller,
-            ),
-            12.heightBox,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: CTAButton(
-                text: 'Next',
-                onPressed: () {
-                  context.read<CreateBookmarkBloc>().fetchPreviewInfo();
-                },
-              ),
             ),
           ],
         );

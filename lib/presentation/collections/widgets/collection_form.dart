@@ -25,16 +25,23 @@ class CollectionForm extends StatelessWidget {
             controller: titleController,
           ),
           16.heightBox,
-          FLabel(
-            axis: Axis.vertical,
-            label: const Text('Private Collection'),
-            description: const Text(
-              'Private collections are only visible to you and cannot be shared with others.',
-            ),
-            child: FSwitch(
-              value: private,
-              onChange: onPrivateChanged,
-            ),
+          Row(
+            children: [
+              const Expanded(
+                child: FLabel(
+                  axis: Axis.vertical,
+                  label: Text('Private Collection'),
+                  description: Text(
+                    'Private collections are only visible to you and cannot be shared with others.',
+                  ),
+                  child: SizedBox.shrink(),
+                ),
+              ),
+              FSwitch(
+                value: private,
+                onChange: onPrivateChanged,
+              ),
+            ],
           ),
         ],
       ),

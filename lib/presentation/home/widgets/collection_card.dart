@@ -1,6 +1,8 @@
 import 'package:app/domain/models/collection.dart';
+import 'package:app/main.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
+import 'package:app/presentation/common/utils/routes.dart';
 import 'package:app/presentation/common/widgets/tappable.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
@@ -54,7 +56,9 @@ class _CollectionCardState extends State<CollectionCard>
                       title: const Text('Edit'),
                       onPress: () {
                         controller.hide();
-                        // TODO: Implement edit
+                        router.push(UpdateCollectionRoute(
+                          collection: widget.collection,
+                        ));
                       },
                     ),
                     FTile(
