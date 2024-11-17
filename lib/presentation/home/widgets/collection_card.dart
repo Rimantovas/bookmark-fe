@@ -1,9 +1,13 @@
 import 'package:app/domain/models/collection.dart';
+import 'package:app/presentation/common/bloc/user_bloc.dart';
+import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/widgets/tappable.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hugeicons/hugeicons.dart';
 
-class CollectionCard extends StatelessWidget {
+class CollectionCard extends StatefulWidget {
   const CollectionCard({
     super.key,
     required this.collection,
@@ -14,13 +18,78 @@ class CollectionCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   @override
+  State<CollectionCard> createState() => _CollectionCardState();
+}
+
+class _CollectionCardState extends State<CollectionCard>
+    with SingleTickerProviderStateMixin {
+  late final controller = FPopoverController(vsync: this);
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Tappable.animated(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: FCard(
-        image: _CollectionImages(images: collection.images),
-        title: Text(collection.title),
-        subtitle: Text('${collection.bookmarkCount} bookmarks'),
+        image: _CollectionImages(images: widget.collection.images),
+        title: Row(
+          children: [
+            Expanded(child: Text(widget.collection.title)),
+            FPopoverMenu.tappable(
+              controller: controller,
+              menuAnchor: Alignment.bottomRight,
+              childAnchor: Alignment.topRight,
+              menu: [
+                FTileGroup(
+                  children: [
+                    FTile(
+                      prefixIcon: HugeIcon(
+                          icon: HugeIcons.strokeRoundedEdit01,
+                          color: context.colors.dark),
+                      title: const Text('Edit'),
+                      onPress: () {
+                        controller.hide();
+                        // TODO: Implement edit
+                      },
+                    ),
+                    FTile(
+                      prefixIcon: FIcon(
+                        FAssets.icons.delete,
+                        color: context.colors.red,
+                      ),
+                      title: Text(
+                        'Delete',
+                        style: TextStyle(color: context.colors.red),
+                      ),
+                      onPress: () {
+                        controller.hide();
+                        context.showConfirmation(
+                          title: 'Delete Collection',
+                          description:
+                              'Are you sure you want to delete this collection? This action cannot be undone.',
+                          onConfirm: () {
+                            GetIt.I<UserBloc>()
+                                .deleteCollection(widget.collection.id);
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+              child: HugeIcon(
+                icon: HugeIcons.strokeRoundedEllipseSelection,
+                color: context.colors.dark,
+              ),
+            ),
+          ],
+        ),
+        subtitle: Text('${widget.collection.bookmarkCount} bookmarks'),
       ),
     );
   }

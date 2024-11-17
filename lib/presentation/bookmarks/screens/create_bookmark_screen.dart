@@ -28,10 +28,12 @@ class CreateBookmarkScreen extends StatelessWidget {
         builder: (context, state) {
           return AppModalSheet(
             title: 'Create Bookmark',
-            actionTitle: 'Create',
-            onAction: () {
-              context.read<CreateBookmarkBloc>().createBookmark();
-            },
+            actionTitle: state.step == CreateBookmarkStep.url ? null : 'Create',
+            onAction: state.step == CreateBookmarkStep.url
+                ? null
+                : () {
+                    context.read<CreateBookmarkBloc>().createBookmark();
+                  },
             child: PageView(
               controller: state.controller,
               physics: const NeverScrollableScrollPhysics(),

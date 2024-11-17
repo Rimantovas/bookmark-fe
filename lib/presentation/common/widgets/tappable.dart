@@ -173,7 +173,7 @@ class _AnimatedTappableState extends _TappableState {
   Widget get _child => ScaleTransition(
         scale: _animation,
         child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
+          behavior: HitTestBehavior.opaque,
           onTap: widget.onTap == null
               ? null
               : () {

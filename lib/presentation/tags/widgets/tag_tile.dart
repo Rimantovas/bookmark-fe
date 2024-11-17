@@ -46,7 +46,15 @@ class TagTile extends StatelessWidget {
           8.widthBox,
           if (onDelete != null)
             Tappable.animated(
-              onTap: onDelete,
+              onTap: () {
+                context.showConfirmation(
+                  title: 'Delete Tag',
+                  description: 'Are you sure you want to delete this tag?',
+                  onConfirm: () {
+                    onDelete!();
+                  },
+                );
+              },
               child: Icon(
                 HugeIcons.strokeRoundedDelete01,
                 size: 20,

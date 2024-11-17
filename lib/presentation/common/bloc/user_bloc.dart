@@ -37,6 +37,28 @@ class UserBloc extends Cubit<UserState> {
     emit(UserGuest(
         collections: List.generate(10, (index) => Collection.mock())));
   }
+
+  void deleteCollection(String id) {
+    if (state is! UserSuccess) return;
+
+    final currentState = state as UserSuccess;
+    final oldCollections = [...currentState.collections];
+
+    // Optimistically update UI
+    emit(UserSuccess(
+      user: currentState.user,
+      collections: currentState.collections.where((c) => c.id != id).toList(),
+    ));
+
+    // Make API call
+    _collectionsRepository.deleteCollection(id).catchError((_) {
+      // Revert on error
+      emit(UserSuccess(
+        user: currentState.user,
+        collections: oldCollections,
+      ));
+    });
+  }
 }
 
 abstract class UserState {

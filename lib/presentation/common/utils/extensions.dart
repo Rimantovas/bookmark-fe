@@ -2,6 +2,7 @@ import 'package:app/main.dart';
 import 'package:app/presentation/common/utils/colors.dart';
 import 'package:app/presentation/common/utils/routes.dart';
 import 'package:app/presentation/common/utils/styles.dart';
+import 'package:app/presentation/common/widgets/confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -66,5 +67,24 @@ extension CubitX<State> on Cubit<State> {
     );
 
     Overlay.of(context).insert(_loadingOverlay!);
+  }
+}
+
+extension BuildContextX on BuildContext {
+  Future<void> showConfirmation({
+    required String title,
+    String? description,
+    required VoidCallback onConfirm,
+    VoidCallback? onCancel,
+  }) {
+    return showDialog(
+      context: this,
+      builder: (context) => ConfirmationDialog(
+        title: title,
+        description: description,
+        onConfirm: onConfirm,
+        onCancel: onCancel,
+      ),
+    );
   }
 }
