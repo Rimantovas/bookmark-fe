@@ -47,3 +47,12 @@ class CreateBookmarkRoute extends AppRoute {
             params: {},
             queryParams: {});
 }
+
+class CollectionBookmarksRoute extends AppRoute {
+  CollectionBookmarksRoute({required String collectionId})
+      : super(
+          name: 'collection_bookmarks',
+          path: '/collections/:id',
+          params: {'id': collectionId},
+        );
+}

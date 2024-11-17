@@ -57,3 +57,10 @@ class AppVibrationFunction {
     }
   }
 }
+
+String mockImageUrl({
+  int width = 600,
+  int height = 400,
+}) {
+  return 'https://placehold.co/${width}x$height.png';
+}

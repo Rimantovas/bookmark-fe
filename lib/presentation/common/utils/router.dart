@@ -1,4 +1,5 @@
 import 'package:app/presentation/auth/screens/auth_screen.dart';
+import 'package:app/presentation/bookmarks/screens/collection_bookmarks_screen.dart';
 import 'package:app/presentation/bookmarks/screens/create_bookmark_screen.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/router_listenable.dart';
@@ -43,6 +44,14 @@ class AppRouter {
                 swipeDismissible: true,
                 child: CreateBookmarkScreen(),
               );
+            },
+          ),
+          GoRoute(
+            path: '/collections/:id',
+            name: 'collection_bookmarks',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return CollectionBookmarksScreen(collectionId: id);
             },
           ),
         ],

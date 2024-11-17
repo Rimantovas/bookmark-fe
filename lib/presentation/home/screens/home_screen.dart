@@ -1,8 +1,10 @@
 import 'package:app/domain/models/collection.dart';
 import 'package:app/domain/models/social_app.dart';
+import 'package:app/main.dart';
 import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
+import 'package:app/presentation/common/utils/routes.dart';
 import 'package:app/presentation/home/widgets/collection_card.dart';
 import 'package:app/presentation/home/widgets/social_app_grid.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +50,9 @@ class HomeScreen extends StatelessWidget {
                           child: CollectionCard(
                             collection: collection,
                             onTap: () {
-                              // TODO: Navigate to collection
+                              router.push(CollectionBookmarksRoute(
+                                collectionId: collection.id,
+                              ));
                             },
                           ),
                         )),

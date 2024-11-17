@@ -1,5 +1,4 @@
 import 'package:app/presentation/common/utils/colors.dart';
-import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/utils/styles.dart';
 import 'package:app/presentation/common/utils/theme_extension.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +14,10 @@ class AppTheme {
     );
   }
 
-  static PaintingEffect skeletonizerEffect(BuildContext context) => PulseEffect(
-        from: context.colors.dark.withOpacity(.5),
-        to: context.colors.grey,
+  static PaintingEffect skeletonizerEffect(BuildContext context) =>
+      const PulseEffect(
+        from: Color(0xffE5E7EB),
+        to: Color(0xffF3F4F6),
       );
 
   static SwitchAnimationConfig get skeletonizerAnimationConfig =>

@@ -20,7 +20,7 @@ class CollectionCard extends StatelessWidget {
       child: FCard(
         image: _CollectionImages(images: collection.images),
         title: Text(collection.title),
-        subtitle: Text('${collection.bookmarksCount} bookmarks'),
+        subtitle: Text('${collection.bookmarkCount} bookmarks'),
       ),
     );
   }

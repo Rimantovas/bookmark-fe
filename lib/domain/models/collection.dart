@@ -1,4 +1,3 @@
-import 'package:app/domain/models/bookmark.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:mock_data/mock_data.dart';
 
@@ -13,7 +12,7 @@ class Collection with CollectionMappable {
   final DateTime updatedAt;
   final String userId;
   final List<String> images;
-  final int bookmarksCount;
+  final int bookmarkCount;
 
   Collection({
     required this.id,
@@ -23,7 +22,7 @@ class Collection with CollectionMappable {
     required this.updatedAt,
     required this.userId,
     required this.images,
-    required this.bookmarksCount,
+    required this.bookmarkCount,
   });
 
   Collection.mock()
@@ -34,5 +33,5 @@ class Collection with CollectionMappable {
         updatedAt = DateTime.now(),
         userId = mockUUID(),
         images = [],
-        bookmarksCount = 0;
+        bookmarkCount = 0;
 }

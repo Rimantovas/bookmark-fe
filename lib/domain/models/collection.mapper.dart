@@ -37,9 +37,9 @@ class CollectionMapper extends ClassMapperBase<Collection> {
   static List<String> _$images(Collection v) => v.images;
   static const Field<Collection, List<String>> _f$images =
       Field('images', _$images);
-  static int _$bookmarksCount(Collection v) => v.bookmarksCount;
-  static const Field<Collection, int> _f$bookmarksCount =
-      Field('bookmarksCount', _$bookmarksCount);
+  static int _$bookmarkCount(Collection v) => v.bookmarkCount;
+  static const Field<Collection, int> _f$bookmarkCount =
+      Field('bookmarkCount', _$bookmarkCount);
 
   @override
   final MappableFields<Collection> fields = const {
@@ -50,7 +50,7 @@ class CollectionMapper extends ClassMapperBase<Collection> {
     #updatedAt: _f$updatedAt,
     #userId: _f$userId,
     #images: _f$images,
-    #bookmarksCount: _f$bookmarksCount,
+    #bookmarkCount: _f$bookmarkCount,
   };
 
   static Collection _instantiate(DecodingData data) {
@@ -62,7 +62,7 @@ class CollectionMapper extends ClassMapperBase<Collection> {
         updatedAt: data.dec(_f$updatedAt),
         userId: data.dec(_f$userId),
         images: data.dec(_f$images),
-        bookmarksCount: data.dec(_f$bookmarksCount));
+        bookmarkCount: data.dec(_f$bookmarkCount));
   }
 
   @override
@@ -125,7 +125,7 @@ abstract class CollectionCopyWith<$R, $In extends Collection, $Out>
       DateTime? updatedAt,
       String? userId,
       List<String>? images,
-      int? bookmarksCount});
+      int? bookmarkCount});
   CollectionCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -150,7 +150,7 @@ class _CollectionCopyWithImpl<$R, $Out>
           DateTime? updatedAt,
           String? userId,
           List<String>? images,
-          int? bookmarksCount}) =>
+          int? bookmarkCount}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (title != null) #title: title,
@@ -159,7 +159,7 @@ class _CollectionCopyWithImpl<$R, $Out>
         if (updatedAt != null) #updatedAt: updatedAt,
         if (userId != null) #userId: userId,
         if (images != null) #images: images,
-        if (bookmarksCount != null) #bookmarksCount: bookmarksCount
+        if (bookmarkCount != null) #bookmarkCount: bookmarkCount
       }));
   @override
   Collection $make(CopyWithData data) => Collection(
@@ -170,7 +170,7 @@ class _CollectionCopyWithImpl<$R, $Out>
       updatedAt: data.get(#updatedAt, or: $value.updatedAt),
       userId: data.get(#userId, or: $value.userId),
       images: data.get(#images, or: $value.images),
-      bookmarksCount: data.get(#bookmarksCount, or: $value.bookmarksCount));
+      bookmarkCount: data.get(#bookmarkCount, or: $value.bookmarkCount));
 
   @override
   CollectionCopyWith<$R2, Collection, $Out2> $chain<$R2, $Out2>(
