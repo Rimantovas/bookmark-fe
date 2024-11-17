@@ -14,11 +14,15 @@ class BookmarksListScreen extends StatelessWidget {
     required this.title,
     required this.bookmarks,
     this.isLoading = false,
+    this.onEditBookmark,
+    this.onDeleteBookmark,
   });
 
   final String title;
   final List<Bookmark> bookmarks;
   final bool isLoading;
+  final Function(Bookmark)? onEditBookmark;
+  final Function(Bookmark)? onDeleteBookmark;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +69,12 @@ class BookmarksListScreen extends StatelessWidget {
                     mode: LaunchMode.externalApplication,
                   );
                 },
+                onEdit: onEditBookmark != null
+                    ? () => onEditBookmark!(bookmarks[index])
+                    : null,
+                onDelete: onDeleteBookmark != null
+                    ? () => onDeleteBookmark!(bookmarks[index])
+                    : null,
               );
             },
           ),

@@ -1,3 +1,4 @@
+import 'package:app/data/repositories/bookmark_repository.dart';
 import 'package:app/data/repositories/collections_repository.dart';
 import 'package:app/domain/models/bookmark.dart';
 import 'package:app/domain/models/collection.dart';
@@ -14,6 +15,7 @@ class CollectionBookmarksBloc extends Cubit<CollectionBookmarksState> {
 
   final String _collectionId;
   final _collectionsRepository = GetIt.I<CollectionsRepository>();
+  final _bookmarkRepository = GetIt.I<BookmarkRepository>();
   final _userBloc = GetIt.I<UserBloc>();
 
   Future<void> init() async {
@@ -52,6 +54,34 @@ class CollectionBookmarksBloc extends Cubit<CollectionBookmarksState> {
       } catch (e) {
         return null;
       }
+    }
+  }
+
+  void updateBookmark(Bookmark bookmark) {
+    final bookmarks = [...state.bookmarks];
+    final index = bookmarks.indexWhere((b) => b.id == bookmark.id);
+    if (index != -1) {
+      bookmarks[index] = bookmark;
+      emit(state.copyWith(bookmarks: bookmarks));
+    }
+  }
+
+  void deleteBookmark(String id) {
+    final oldBookmarks = [...state.bookmarks];
+
+    // Optimistic update
+    emit(state.copyWith(
+      bookmarks: state.bookmarks.where((b) => b.id != id).toList(),
+    ));
+
+    try {
+      _bookmarkRepository.deleteBookmark(id).catchError((_) {
+        // Revert on error
+        emit(state.copyWith(bookmarks: oldBookmarks));
+      });
+    } catch (e) {
+      // Revert on error
+      emit(state.copyWith(bookmarks: oldBookmarks));
     }
   }
 }

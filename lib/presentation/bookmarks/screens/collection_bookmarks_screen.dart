@@ -1,5 +1,7 @@
+import 'package:app/main.dart';
 import 'package:app/presentation/bookmarks/bloc/collection_bookmarks_bloc.dart';
 import 'package:app/presentation/bookmarks/screens/bookmarks_list_screen.dart';
+import 'package:app/presentation/common/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,9 +24,24 @@ class CollectionBookmarksScreen extends StatelessWidget {
           }
 
           return BookmarksListScreen(
-            title: state.collection?.title ?? ' asdf',
+            title: state.collection?.title ?? '',
             bookmarks: state.bookmarks,
             isLoading: state.isLoading,
+            onEditBookmark: (bookmark) {
+              router.push(UpdateBookmarkRoute(
+                bookmark: bookmark,
+                onUpdated: (updatedBookmark) {
+                  context
+                      .read<CollectionBookmarksBloc>()
+                      .updateBookmark(updatedBookmark);
+                },
+              ));
+            },
+            onDeleteBookmark: (bookmark) {
+              context
+                  .read<CollectionBookmarksBloc>()
+                  .deleteBookmark(bookmark.id);
+            },
           );
         },
       ),
