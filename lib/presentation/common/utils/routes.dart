@@ -85,3 +85,14 @@ class UpdateBookmarkRoute extends AppRoute {
           ),
         );
 }
+
+// ... existing routes ...
+
+class CreateCollectionRoute extends AppRoute {
+  CreateCollectionRoute()
+      : super(
+          name: 'create_collection',
+          path: '/create_collection',
+          params: {},
+        );
+}

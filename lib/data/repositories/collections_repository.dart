@@ -1,3 +1,4 @@
+import 'package:app/data/dto/create_collection_dto.dart';
 import 'package:app/data/dto/search_pagination_dto.dart';
 import 'package:app/domain/models/bookmark.dart';
 import 'package:app/domain/models/collection.dart';
@@ -20,10 +21,10 @@ class CollectionsRepository {
         .toList();
   }
 
-  Future<Collection> createCollection(Collection collection) async {
+  Future<Collection> createCollection(CreateCollectionDto dto) async {
     final response = await dio.post(
       _kBasePath,
-      data: collection.toMap(),
+      data: dto.toMap(),
     );
     return CollectionMapper.fromMap(response.data);
   }

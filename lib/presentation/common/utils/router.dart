@@ -4,6 +4,7 @@ import 'package:app/presentation/bookmarks/models/update_bookmark_route_extra.da
 import 'package:app/presentation/bookmarks/screens/collection_bookmarks_screen.dart';
 import 'package:app/presentation/bookmarks/screens/create_bookmark_screen.dart';
 import 'package:app/presentation/bookmarks/screens/update_bookmark_screen.dart';
+import 'package:app/presentation/collections/screens/create_collection_screen.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/router_listenable.dart';
 import 'package:app/presentation/common/utils/routes.dart';
@@ -31,7 +32,7 @@ class AppRouter {
         builder: (context, state) => const HomeWrapperScreen(),
         routes: [
           GoRoute(
-            path: '/create_tag',
+            path: 'create_tag',
             name: 'create_tag',
             pageBuilder: (context, state) {
               return const CupertinoModalSheetPage(
@@ -41,7 +42,7 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/create_bookmark',
+            path: 'create_bookmark',
             name: 'create_bookmark',
             pageBuilder: (context, state) {
               return const CupertinoModalSheetPage(
@@ -51,7 +52,7 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/collections/:id',
+            path: 'collections/:id',
             name: 'collection_bookmarks',
             builder: (context, state) {
               final id = state.pathParameters['id']!;
@@ -59,7 +60,7 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/update_tag',
+            path: 'update_tag',
             name: 'update_tag',
             pageBuilder: (context, state) {
               final tag = state.extra as Tag;
@@ -70,7 +71,7 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/update_bookmark',
+            path: 'update_bookmark',
             name: 'update_bookmark',
             pageBuilder: (context, state) {
               final extra = state.extra as UpdateBookmarkRouteExtra;
@@ -80,6 +81,17 @@ class AppRouter {
                   bookmark: extra.bookmark,
                   onUpdated: extra.onUpdated,
                 ),
+              );
+            },
+          ),
+          // ... in routes array ...
+          GoRoute(
+            path: 'create_collection',
+            name: 'create_collection',
+            pageBuilder: (context, state) {
+              return const CupertinoModalSheetPage(
+                swipeDismissible: true,
+                child: CreateCollectionScreen(),
               );
             },
           ),
