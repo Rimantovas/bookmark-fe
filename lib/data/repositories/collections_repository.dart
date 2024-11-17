@@ -1,5 +1,6 @@
 import 'package:app/data/dto/create_collection_dto.dart';
 import 'package:app/data/dto/search_pagination_dto.dart';
+import 'package:app/data/dto/update_collection_dto.dart';
 import 'package:app/domain/models/bookmark.dart';
 import 'package:app/domain/models/collection.dart';
 import 'package:app/main.dart';
@@ -31,11 +32,11 @@ class CollectionsRepository {
 
   Future<Collection> updateCollection(
     String id,
-    Collection collection,
+    UpdateCollectionDto dto,
   ) async {
     final response = await dio.put(
       '$_kBasePath/$id',
-      data: collection.toMap(),
+      data: dto.toMap(),
     );
     return CollectionMapper.fromMap(response.data);
   }

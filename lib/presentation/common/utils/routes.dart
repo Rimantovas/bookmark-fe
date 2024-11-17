@@ -1,6 +1,8 @@
 import 'package:app/domain/models/bookmark.dart';
+import 'package:app/domain/models/collection.dart';
 import 'package:app/domain/models/tag.dart';
 import 'package:app/presentation/bookmarks/models/update_bookmark_route_extra.dart';
+import 'package:app/presentation/collections/models/update_collection_route_extra.dart';
 
 abstract class AppRoute {
   const AppRoute({
@@ -94,5 +96,20 @@ class CreateCollectionRoute extends AppRoute {
           name: 'create_collection',
           path: '/create_collection',
           params: {},
+        );
+}
+
+class UpdateCollectionRoute extends AppRoute {
+  UpdateCollectionRoute({
+    required Collection collection,
+    Function(Collection)? onUpdated,
+  }) : super(
+          name: 'update_collection',
+          path: '/update_collection',
+          params: {},
+          extra: UpdateCollectionRouteExtra(
+            collection: collection,
+            onUpdated: onUpdated,
+          ),
         );
 }

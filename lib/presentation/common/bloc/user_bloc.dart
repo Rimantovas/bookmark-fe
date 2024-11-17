@@ -69,6 +69,22 @@ class UserBloc extends Cubit<UserState> {
       collections: [...currentState.collections, collection],
     ));
   }
+
+  void updateCollection(Collection collection) {
+    if (state is! UserSuccess) return;
+
+    final currentState = state as UserSuccess;
+    final collections = [...currentState.collections];
+    final index = collections.indexWhere((c) => c.id == collection.id);
+
+    if (index != -1) {
+      collections[index] = collection;
+      emit(UserSuccess(
+        user: currentState.user,
+        collections: collections,
+      ));
+    }
+  }
 }
 
 abstract class UserState {

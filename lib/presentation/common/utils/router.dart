@@ -4,7 +4,9 @@ import 'package:app/presentation/bookmarks/models/update_bookmark_route_extra.da
 import 'package:app/presentation/bookmarks/screens/collection_bookmarks_screen.dart';
 import 'package:app/presentation/bookmarks/screens/create_bookmark_screen.dart';
 import 'package:app/presentation/bookmarks/screens/update_bookmark_screen.dart';
+import 'package:app/presentation/collections/models/update_collection_route_extra.dart';
 import 'package:app/presentation/collections/screens/create_collection_screen.dart';
+import 'package:app/presentation/collections/screens/update_collection_screen.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/router_listenable.dart';
 import 'package:app/presentation/common/utils/routes.dart';
@@ -92,6 +94,20 @@ class AppRouter {
               return const CupertinoModalSheetPage(
                 swipeDismissible: true,
                 child: CreateCollectionScreen(),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'update_collection',
+            name: 'update_collection',
+            pageBuilder: (context, state) {
+              final extra = state.extra as UpdateCollectionRouteExtra;
+              return CupertinoModalSheetPage(
+                swipeDismissible: true,
+                child: UpdateCollectionScreen(
+                  collection: extra.collection,
+                  onUpdated: extra.onUpdated,
+                ),
               );
             },
           ),
