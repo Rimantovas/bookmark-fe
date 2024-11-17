@@ -10,6 +10,7 @@ import 'package:app/presentation/common/widgets/app_sheet.dart';
 import 'package:app/presentation/common/widgets/cta_button.dart';
 import 'package:app/presentation/home/widgets/social_app_grid.dart';
 import 'package:app/presentation/tags/bloc/tags_bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -342,18 +343,10 @@ class _CollectionSelector extends StatelessWidget {
                 Expanded(
                   child: Text(
                     collections
-                            .firstWhere(
+                            .firstWhereOrNull(
                               (c) => c.id == selectedId,
-                              orElse: () => Collection(
-                                id: '',
-                                title: 'Select Collection',
-                                private: false,
-                                createdAt: DateTime.now(),
-                                updatedAt: DateTime.now(),
-                                userId: '',
-                              ),
                             )
-                            .title ??
+                            ?.title ??
                         'Select Collection',
                   ),
                 ),

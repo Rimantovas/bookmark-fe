@@ -35,6 +35,9 @@ class CollectionMapper extends ClassMapperBase<Collection> {
       Field('updatedAt', _$updatedAt);
   static String _$userId(Collection v) => v.userId;
   static const Field<Collection, String> _f$userId = Field('userId', _$userId);
+  static List<String> _$images(Collection v) => v.images;
+  static const Field<Collection, List<String>> _f$images =
+      Field('images', _$images);
   static List<Bookmark>? _$bookmarks(Collection v) => v.bookmarks;
   static const Field<Collection, List<Bookmark>> _f$bookmarks =
       Field('bookmarks', _$bookmarks, opt: true);
@@ -47,6 +50,7 @@ class CollectionMapper extends ClassMapperBase<Collection> {
     #createdAt: _f$createdAt,
     #updatedAt: _f$updatedAt,
     #userId: _f$userId,
+    #images: _f$images,
     #bookmarks: _f$bookmarks,
   };
 
@@ -58,6 +62,7 @@ class CollectionMapper extends ClassMapperBase<Collection> {
         createdAt: data.dec(_f$createdAt),
         updatedAt: data.dec(_f$updatedAt),
         userId: data.dec(_f$userId),
+        images: data.dec(_f$images),
         bookmarks: data.dec(_f$bookmarks));
   }
 
@@ -112,6 +117,7 @@ extension CollectionValueCopy<$R, $Out>
 
 abstract class CollectionCopyWith<$R, $In extends Collection, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get images;
   ListCopyWith<$R, Bookmark, BookmarkCopyWith<$R, Bookmark, Bookmark>>?
       get bookmarks;
   $R call(
@@ -121,6 +127,7 @@ abstract class CollectionCopyWith<$R, $In extends Collection, $Out>
       DateTime? createdAt,
       DateTime? updatedAt,
       String? userId,
+      List<String>? images,
       List<Bookmark>? bookmarks});
   CollectionCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -133,6 +140,10 @@ class _CollectionCopyWithImpl<$R, $Out>
   @override
   late final ClassMapperBase<Collection> $mapper =
       CollectionMapper.ensureInitialized();
+  @override
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get images =>
+      ListCopyWith($value.images, (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(images: v));
   @override
   ListCopyWith<$R, Bookmark, BookmarkCopyWith<$R, Bookmark, Bookmark>>?
       get bookmarks => $value.bookmarks != null
@@ -147,6 +158,7 @@ class _CollectionCopyWithImpl<$R, $Out>
           DateTime? createdAt,
           DateTime? updatedAt,
           String? userId,
+          List<String>? images,
           Object? bookmarks = $none}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
@@ -155,6 +167,7 @@ class _CollectionCopyWithImpl<$R, $Out>
         if (createdAt != null) #createdAt: createdAt,
         if (updatedAt != null) #updatedAt: updatedAt,
         if (userId != null) #userId: userId,
+        if (images != null) #images: images,
         if (bookmarks != $none) #bookmarks: bookmarks
       }));
   @override
@@ -165,6 +178,7 @@ class _CollectionCopyWithImpl<$R, $Out>
       createdAt: data.get(#createdAt, or: $value.createdAt),
       updatedAt: data.get(#updatedAt, or: $value.updatedAt),
       userId: data.get(#userId, or: $value.userId),
+      images: data.get(#images, or: $value.images),
       bookmarks: data.get(#bookmarks, or: $value.bookmarks));
 
   @override

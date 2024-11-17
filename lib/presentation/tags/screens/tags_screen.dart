@@ -26,16 +26,22 @@ class TagsScreen extends StatelessWidget {
         return AppLoader(
           isLoading: state.isLoading,
           child: FScaffold(
-            header: const FHeader(
-              title: Text('Tags'),
+            header: FHeader(
+              title: const Text('Tags'),
+              actions: [
+                FHeaderAction(
+                  icon: const Icon(Icons.add),
+                  onPress: () {
+                    router.go(CreateTagRoute());
+                  },
+                ),
+              ],
             ),
             content: SingleChildScrollView(
               padding: EdgeInsets.zero,
               child: Column(
                 children: [
-                  const _CreateTagTile(),
                   if (tags.isNotEmpty) ...[
-                    16.heightBox,
                     ...tags.map((tag) => Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: TagTile(
