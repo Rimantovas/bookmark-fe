@@ -22,20 +22,37 @@ class CreateTagScreen extends StatelessWidget {
             child: FScaffold(
               content: Column(
                 children: [
-                  FTextField(
-                    hint: 'Tag name',
+                  FLabel(
+                    axis: Axis.vertical,
                     label: const Text('Name'),
-                    controller: state.nameController,
+                    error: state.nameError != null
+                        ? Text(
+                            state.nameError!,
+                            style: context.styles.body2.copyWith(
+                              color: context.colors.red,
+                            ),
+                          )
+                        : null,
+                    child: FTextField(
+                      hint: 'Tag name',
+                      controller: state.nameController,
+                    ),
                   ),
                   16.heightBox,
                   FLabel(
                     axis: Axis.vertical,
                     label: const Text('Color'),
+                    error: state.colorError != null
+                        ? Text(
+                            state.colorError!,
+                            style: context.styles.body2.copyWith(
+                              color: context.colors.red,
+                            ),
+                          )
+                        : null,
                     child: FSelectMenuTile<Color>(
                       groupController: state.colorController,
                       autoHide: true,
-                      validator: (value) =>
-                          value == null ? 'Select a color' : null,
                       title: const Text('Color'),
                       details: ListenableBuilder(
                         listenable: state.colorController,

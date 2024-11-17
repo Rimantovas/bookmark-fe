@@ -6,10 +6,10 @@ part 'create_tag_dto.mapper.dart';
 
 @MappableClass(
   caseStyle: CaseStyle.snakeCase,
-  hook: ColorHook(),
 )
 class CreateTagDto with CreateTagDtoMappable {
   final String name;
+  @MappableField(hook: ColorHook())
   final Color color;
   final TagIcon? icon;
 
@@ -26,6 +26,8 @@ class ColorHook extends MappingHook {
   @override
   Object? beforeEncode(Object? value) {
     if (value is Color) {
+      return '#${value.value.toRadixString(16).substring(2)}';
+    } else if (value is MaterialColor) {
       return '#${value.value.toRadixString(16).substring(2)}';
     }
     return value;

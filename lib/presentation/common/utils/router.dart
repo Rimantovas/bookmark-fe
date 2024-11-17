@@ -88,4 +88,8 @@ class AppRouter {
       extra: route.extra,
     );
   }
+
+  void pop() {
+    router.pop();
+  }
 }

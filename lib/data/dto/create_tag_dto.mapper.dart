@@ -24,7 +24,8 @@ class CreateTagDtoMapper extends ClassMapperBase<CreateTagDto> {
   static String _$name(CreateTagDto v) => v.name;
   static const Field<CreateTagDto, String> _f$name = Field('name', _$name);
   static Color _$color(CreateTagDto v) => v.color;
-  static const Field<CreateTagDto, Color> _f$color = Field('color', _$color);
+  static const Field<CreateTagDto, Color> _f$color =
+      Field('color', _$color, hook: ColorHook());
   static TagIcon? _$icon(CreateTagDto v) => v.icon;
   static const Field<CreateTagDto, TagIcon> _f$icon =
       Field('icon', _$icon, opt: true);
@@ -36,8 +37,6 @@ class CreateTagDtoMapper extends ClassMapperBase<CreateTagDto> {
     #icon: _f$icon,
   };
 
-  @override
-  final MappingHook hook = const ColorHook();
   static CreateTagDto _instantiate(DecodingData data) {
     return CreateTagDto(
         name: data.dec(_f$name),

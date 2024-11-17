@@ -103,7 +103,13 @@ class _MyAppState extends State<MyApp> {
               footerDecoration: const BoxDecoration(),
             ),
           ),
-          child: child!,
+          child: Overlay(
+            initialEntries: [
+              OverlayEntry(
+                builder: (context) => child!,
+              ),
+            ],
+          ),
         ),
         routerConfig: router.router,
       ),

@@ -1,6 +1,8 @@
 import 'package:app/data/dto/create_tag_dto.dart';
 import 'package:app/data/repositories/tag_repository.dart';
 import 'package:app/domain/enums/tag_icon.dart';
+import 'package:app/main.dart';
+import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/tags/bloc/tags_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,12 +12,18 @@ import 'package:get_it/get_it.dart';
 class CreateTagBloc extends Cubit<CreateTagState> {
   CreateTagBloc() : super(CreateTagState.initial()) {
     state.nameController.addListener(() {
-      emit(state.copyWith(name: state.nameController.text));
+      emit(state.copyWith(
+        name: state.nameController.text,
+        nameError: _validateName(state.nameController.text),
+      ));
     });
 
     state.colorController.addListener(() {
       if (state.colorController.values.isNotEmpty) {
-        emit(state.copyWith(color: state.colorController.values.first));
+        emit(state.copyWith(
+          color: state.colorController.values.first,
+          colorError: null,
+        ));
       }
     });
 
@@ -42,6 +50,28 @@ class CreateTagBloc extends Cubit<CreateTagState> {
     'Grey': Colors.grey,
   };
 
+  String? _validateName(String value) {
+    if (value.isEmpty) {
+      return 'Name is required';
+    }
+    if (value.length < 3) {
+      return 'Name must be at least 3 characters';
+    }
+    return null;
+  }
+
+  bool validate() {
+    final nameError = _validateName(state.name);
+    final colorError = state.color == null ? 'Color is required' : null;
+
+    emit(state.copyWith(
+      nameError: nameError,
+      colorError: colorError,
+    ));
+
+    return nameError == null && colorError == null;
+  }
+
   @override
   Future<void> close() {
     state.nameController.dispose();
@@ -51,9 +81,10 @@ class CreateTagBloc extends Cubit<CreateTagState> {
   }
 
   Future<void> createTag() async {
-    if (state.name.isEmpty || state.color == null) return;
+    print('createTag');
+    if (!validate()) return;
 
-    emit(state.copyWith(isLoading: true));
+    print('validate');
 
     try {
       final dto = CreateTagDto(
@@ -61,31 +92,35 @@ class CreateTagBloc extends Cubit<CreateTagState> {
         color: state.color!,
         icon: state.icon,
       );
-
+      print('call function');
+      toggleLoading();
       final tag = await _tagRepository.createTag(dto);
       _tagsBloc.addTag(tag);
-      // Handle success (close modal, show success message, etc.)
+      router.pop();
     } catch (e) {
+      print('error: $e');
       // Handle error
     } finally {
-      emit(state.copyWith(isLoading: false));
+      toggleLoading();
     }
   }
 }
 
 class CreateTagState {
-  final bool isLoading;
   final String name;
+  final String? nameError;
   final Color? color;
+  final String? colorError;
   final TagIcon? icon;
   final TextEditingController nameController;
   final FRadioSelectGroupController<Color> colorController;
   final FRadioSelectGroupController<TagIcon> iconController;
 
   CreateTagState({
-    required this.isLoading,
     required this.name,
+    required this.nameError,
     required this.color,
+    required this.colorError,
     required this.icon,
     required this.nameController,
     required this.colorController,
@@ -94,9 +129,10 @@ class CreateTagState {
 
   CreateTagState.initial()
       : this(
-          isLoading: false,
           name: '',
+          nameError: null,
           color: null,
+          colorError: null,
           icon: null,
           nameController: TextEditingController(),
           colorController: FRadioSelectGroupController<Color>(),
@@ -106,16 +142,19 @@ class CreateTagState {
   CreateTagState copyWith({
     bool? isLoading,
     String? name,
+    String? nameError,
     Color? color,
+    String? colorError,
     TagIcon? icon,
     TextEditingController? nameController,
     FRadioSelectGroupController<Color>? colorController,
     FRadioSelectGroupController<TagIcon>? iconController,
   }) {
     return CreateTagState(
-      isLoading: isLoading ?? this.isLoading,
       name: name ?? this.name,
+      nameError: nameError ?? this.nameError,
       color: color ?? this.color,
+      colorError: colorError ?? this.colorError,
       icon: icon ?? this.icon,
       nameController: nameController ?? this.nameController,
       colorController: colorController ?? this.colorController,
