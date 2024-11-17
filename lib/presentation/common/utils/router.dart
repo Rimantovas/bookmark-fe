@@ -1,7 +1,9 @@
 import 'package:app/domain/models/tag.dart';
 import 'package:app/presentation/auth/screens/auth_screen.dart';
+import 'package:app/presentation/bookmarks/models/update_bookmark_route_extra.dart';
 import 'package:app/presentation/bookmarks/screens/collection_bookmarks_screen.dart';
 import 'package:app/presentation/bookmarks/screens/create_bookmark_screen.dart';
+import 'package:app/presentation/bookmarks/screens/update_bookmark_screen.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/router_listenable.dart';
 import 'package:app/presentation/common/utils/routes.dart';
@@ -64,6 +66,20 @@ class AppRouter {
               return CupertinoModalSheetPage(
                 swipeDismissible: true,
                 child: UpdateTagScreen(tag: tag),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/update_bookmark',
+            name: 'update_bookmark',
+            pageBuilder: (context, state) {
+              final extra = state.extra as UpdateBookmarkRouteExtra;
+              return CupertinoModalSheetPage(
+                swipeDismissible: true,
+                child: UpdateBookmarkScreen(
+                  bookmark: extra.bookmark,
+                  onUpdated: extra.onUpdated,
+                ),
               );
             },
           ),

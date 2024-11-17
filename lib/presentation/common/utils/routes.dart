@@ -1,4 +1,6 @@
+import 'package:app/domain/models/bookmark.dart';
 import 'package:app/domain/models/tag.dart';
+import 'package:app/presentation/bookmarks/models/update_bookmark_route_extra.dart';
 
 abstract class AppRoute {
   const AppRoute({
@@ -66,5 +68,20 @@ class UpdateTagRoute extends AppRoute {
           path: '/update_tag',
           params: {},
           extra: tag,
+        );
+}
+
+class UpdateBookmarkRoute extends AppRoute {
+  UpdateBookmarkRoute({
+    required Bookmark bookmark,
+    Function(Bookmark)? onUpdated,
+  }) : super(
+          name: 'update_bookmark',
+          path: '/update_bookmark',
+          params: {},
+          extra: UpdateBookmarkRouteExtra(
+            bookmark: bookmark,
+            onUpdated: onUpdated,
+          ),
         );
 }
