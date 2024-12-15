@@ -36,7 +36,7 @@ class CollectionMapper extends ClassMapperBase<Collection> {
   static const Field<Collection, String> _f$userId = Field('userId', _$userId);
   static List<String> _$images(Collection v) => v.images;
   static const Field<Collection, List<String>> _f$images =
-      Field('images', _$images);
+      Field('images', _$images, opt: true, def: const []);
   static int _$bookmarkCount(Collection v) => v.bookmarkCount;
   static const Field<Collection, int> _f$bookmarkCount =
       Field('bookmarkCount', _$bookmarkCount);

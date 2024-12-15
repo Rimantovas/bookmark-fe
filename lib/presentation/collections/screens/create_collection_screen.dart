@@ -16,8 +16,14 @@ class CreateCollectionScreen extends StatelessWidget {
           return AppModalSheet(
             title: 'Create Collection',
             actionTitle: 'Create',
-            onAction: () =>
-                context.read<CreateCollectionBloc>().createCollection(),
+            onAction: () {
+              try {
+                print('onAction');
+                context.read<CreateCollectionBloc>().createCollection();
+              } catch (e) {
+                print(e);
+              }
+            },
             child: CollectionForm(
               titleController: state.titleController,
               private: state.private,

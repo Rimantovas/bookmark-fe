@@ -20,7 +20,7 @@ import 'package:smooth_sheets/smooth_sheets.dart';
 class AppRouter {
   late final GoRouter router = GoRouter(
     refreshListenable: GoRouterRefreshStream(
-      GetIt.I<UserBloc>().stream,
+      GetIt.I<UserBloc>().authStatusStream,
     ),
     routes: [
       GoRoute(

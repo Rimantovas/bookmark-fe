@@ -8,7 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class CreateCollectionBloc extends Cubit<CreateCollectionState> {
-  CreateCollectionBloc() : super(CreateCollectionState.initial());
+  CreateCollectionBloc() : super(CreateCollectionState.initial()) {
+    state.titleController.addListener(() {
+      emit(state.copyWith(title: state.titleController.text));
+    });
+  }
 
   final _collectionsRepository = GetIt.I<CollectionsRepository>();
   final _userBloc = GetIt.I<UserBloc>();
@@ -33,10 +37,12 @@ class CreateCollectionBloc extends Cubit<CreateCollectionState> {
       );
 
       toggleLoading();
+
       final collection = await _collectionsRepository.createCollection(dto);
       _userBloc.addCollection(collection);
       router.pop();
     } catch (e) {
+      print(e);
       // Handle error
     } finally {
       toggleLoading();

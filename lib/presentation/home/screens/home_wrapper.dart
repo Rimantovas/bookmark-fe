@@ -96,6 +96,7 @@ class _BuildBottomNavigationBar extends StatelessWidget {
       ),
       width: double.infinity,
       child: SafeArea(
+        top: false,
         child: SizedBox(
           height: kBottomNavigationBarHeight,
           child: Padding(
@@ -189,7 +190,7 @@ class _BuildBottomNavigationBarItem extends StatelessWidget {
               height: 2,
               decoration: ShapeDecoration(
                 shape: const StadiumBorder(),
-                color: context.colors.dark,
+                color: context.colors.primary,
               ),
             ),
             const SizedBox(

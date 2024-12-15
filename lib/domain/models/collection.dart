@@ -11,6 +11,7 @@ class Collection with CollectionMappable {
   final DateTime createdAt;
   final DateTime updatedAt;
   final String userId;
+
   final List<String> images;
   final int bookmarkCount;
 
@@ -21,8 +22,8 @@ class Collection with CollectionMappable {
     required this.createdAt,
     required this.updatedAt,
     required this.userId,
-    required this.images,
-    required this.bookmarkCount,
+    this.images = const [],
+    this.bookmarkCount = 0,
   });
 
   Collection.mock()

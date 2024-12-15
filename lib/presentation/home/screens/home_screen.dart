@@ -44,18 +44,27 @@ class HomeScreen extends StatelessWidget {
                       'Collections',
                       style: context.styles.button1,
                     ),
-                    12.heightBox,
-                    ...collections.map((collection) => Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: CollectionCard(
-                            collection: collection,
-                            onTap: () {
-                              router.push(CollectionBookmarksRoute(
-                                collectionId: collection.id,
-                              ));
-                            },
-                          ),
-                        )),
+                    8.heightBox,
+                    ...collections.map(
+                      (collection) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: CollectionCard(
+                          collection: collection,
+                          onTap: () {
+                            router.push(CollectionBookmarksRoute(
+                              collectionId: collection.id,
+                            ));
+                          },
+                        ),
+                      ),
+                    ),
+                    FButton(
+                      onPress: () {
+                        router.push(CreateCollectionRoute());
+                      },
+                      style: FButtonStyle.outline,
+                      label: const Text('Create new collection'),
+                    ),
                   ],
                 );
               },

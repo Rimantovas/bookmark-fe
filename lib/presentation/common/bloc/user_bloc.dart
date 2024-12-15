@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/data/repositories/collections_repository.dart';
 import 'package:app/data/repositories/user_repository.dart';
 import 'package:app/domain/models/collection.dart';
@@ -6,11 +8,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class UserBloc extends Cubit<UserState> {
-  UserBloc() : super(UserInitial());
+  UserBloc() : super(UserInitial()) {
+    stream.distinct((previous, current) {
+      return previous.stateHash == current.stateHash;
+    }).listen((state) {
+      _authStatusController.add(state.isLoggedIn);
+    });
+  }
 
   late final UserRepository _userRepository = GetIt.I<UserRepository>();
   late final CollectionsRepository _collectionsRepository =
       GetIt.I<CollectionsRepository>();
+
+  final _authStatusController = StreamController<bool>.broadcast();
+  Stream<bool> get authStatusStream => _authStatusController.stream;
+
+  @override
+  Future<void> close() {
+    _authStatusController.close();
+    return super.close();
+  }
 
   Future<bool> initUser() async {
     try {
@@ -90,6 +107,8 @@ class UserBloc extends Cubit<UserState> {
 abstract class UserState {
   List<Collection> get collections;
   User get user;
+
+  String get stateHash;
 }
 
 class UserInitial extends UserState {
@@ -98,6 +117,9 @@ class UserInitial extends UserState {
 
   @override
   User get user => User.mock();
+
+  @override
+  String get stateHash => 'UserInitial';
 }
 
 class UserLoading extends UserState {
@@ -106,6 +128,9 @@ class UserLoading extends UserState {
 
   @override
   User get user => User.mock();
+
+  @override
+  String get stateHash => 'UserLoading';
 }
 
 class UserSuccess extends UserState {
@@ -116,6 +141,9 @@ class UserSuccess extends UserState {
   final List<Collection> collections;
 
   UserSuccess({required this.user, required this.collections});
+
+  @override
+  String get stateHash => 'UserSuccess';
 }
 
 class UserGuest extends UserState {
@@ -126,6 +154,9 @@ class UserGuest extends UserState {
   User get user => User.guest();
 
   UserGuest({required this.collections});
+
+  @override
+  String get stateHash => 'UserGuest';
 }
 
 class UserError extends UserState {
@@ -137,6 +168,9 @@ class UserError extends UserState {
   List<Collection> get collections => [];
 
   UserError({required this.message});
+
+  @override
+  String get stateHash => 'UserError';
 }
 
 extension UserStateExtension on UserState {
