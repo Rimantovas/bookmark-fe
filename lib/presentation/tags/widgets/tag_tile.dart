@@ -58,7 +58,7 @@ class TagTile extends StatelessWidget {
               child: Icon(
                 HugeIcons.strokeRoundedDelete01,
                 size: 20,
-                color: context.colors.red,
+                color: context.colors.destructive,
               ),
             ),
         ],

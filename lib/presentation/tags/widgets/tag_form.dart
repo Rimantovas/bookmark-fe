@@ -31,7 +31,7 @@ class TagForm extends StatelessWidget {
                 ? Text(
                     nameError!,
                     style: context.styles.body2.copyWith(
-                      color: context.colors.red,
+                      color: context.colors.destructive,
                     ),
                   )
                 : null,
@@ -48,7 +48,7 @@ class TagForm extends StatelessWidget {
                 ? Text(
                     colorError!,
                     style: context.styles.body2.copyWith(
-                      color: context.colors.red,
+                      color: context.colors.destructive,
                     ),
                   )
                 : null,
@@ -109,14 +109,14 @@ class TagForm extends StatelessWidget {
                     ? const Text('Select icon')
                     : Icon(
                         iconController.values.first.icon,
-                        color: context.colors.dark,
+                        color: context.colors.primary,
                       ),
               ),
               menu: TagIcon.values
                   .map(
                     (icon) => FSelectTile(
                       uncheckedIcon:
-                          Icon(icon.icon, color: context.colors.dark),
+                          Icon(icon.icon, color: context.colors.primary),
                       checkedIcon: Icon(
                         icon.icon,
                         color: context.colors.primary,

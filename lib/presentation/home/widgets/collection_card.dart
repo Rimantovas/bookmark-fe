@@ -52,7 +52,7 @@ class _CollectionCardState extends State<CollectionCard>
                     FTile(
                       prefixIcon: HugeIcon(
                           icon: HugeIcons.strokeRoundedEdit01,
-                          color: context.colors.dark),
+                          color: context.colors.primary),
                       title: const Text('Edit'),
                       onPress: () {
                         controller.hide();
@@ -64,11 +64,11 @@ class _CollectionCardState extends State<CollectionCard>
                     FTile(
                       prefixIcon: FIcon(
                         FAssets.icons.delete,
-                        color: context.colors.red,
+                        color: context.colors.destructive,
                       ),
                       title: Text(
                         'Delete',
-                        style: TextStyle(color: context.colors.red),
+                        style: TextStyle(color: context.colors.destructive),
                       ),
                       onPress: () {
                         controller.hide();
@@ -88,7 +88,7 @@ class _CollectionCardState extends State<CollectionCard>
               ],
               child: HugeIcon(
                 icon: HugeIcons.strokeRoundedMoreVertical,
-                color: context.colors.dark,
+                color: context.colors.primary,
               ),
             ),
           ],
@@ -117,11 +117,11 @@ class CollectionImages extends StatelessWidget {
     final placeholder = Container(
       height: height,
       width: width,
-      color: context.colors.grey,
+      color: context.colors.border,
       child: Center(
         child: HugeIcon(
           icon: HugeIcons.strokeRoundedFolder02,
-          color: context.colors.dark,
+          color: context.colors.primary,
           size: 54,
         ),
       ),

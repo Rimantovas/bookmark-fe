@@ -205,8 +205,9 @@ class _BuildBottomNavigationBarItem extends StatelessWidget {
                   icon,
                   key: ValueKey(icon),
                   size: kIconSize,
-                  color:
-                      isSelected ? context.colors.primary : context.colors.dark,
+                  color: isSelected
+                      ? context.colors.primary
+                      : context.colors.primary,
                 ),
               ),
             ),
@@ -217,8 +218,9 @@ class _BuildBottomNavigationBarItem extends StatelessWidget {
               text,
               style: context.styles.body3.copyWith(
                 fontSize: 10,
-                color:
-                    isSelected ? context.colors.primary : context.colors.dark,
+                color: isSelected
+                    ? context.colors.primary
+                    : context.colors.primary,
               ),
             ),
           ],

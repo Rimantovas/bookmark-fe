@@ -108,16 +108,16 @@ class _MagicInput extends StatelessWidget {
           Colors.blue,
           Colors.cyan,
           Colors.green,
-          Colors.red
+          Colors.red,
         ],
         duration: const Duration(seconds: 10),
         child: Container(
           height: 56,
           decoration: ShapeDecoration(
-            color: context.colors.white,
+            color: context.colors.background,
             shape: StadiumBorder(
               side: BorderSide(
-                color: context.colors.grey,
+                color: context.colors.border,
               ),
             ),
           ),
@@ -130,7 +130,7 @@ class _MagicInput extends StatelessWidget {
               decoration: InputDecoration.collapsed(
                 hintText: 'Enter URL',
                 hintStyle: context.styles.body1.copyWith(
-                  color: context.colors.dark,
+                  color: context.colors.foreground,
                 ),
               ),
             ),

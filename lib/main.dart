@@ -8,7 +8,6 @@ import 'package:app/data/repositories/user_repository.dart';
 import 'package:app/domain/enums/user_role.dart';
 import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
-import 'package:app/presentation/common/utils/colors.dart';
 import 'package:app/presentation/common/utils/router.dart';
 import 'package:app/presentation/common/utils/theme.dart';
 import 'package:app/presentation/home/bloc/home_bloc.dart';
@@ -101,7 +100,7 @@ class _MyAppState extends State<MyApp> {
           data: FThemes.zinc.light.copyWith(
             scaffoldStyle: FScaffoldStyle(
               contentPadding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-              backgroundColor: AppColors().white,
+              backgroundColor: FThemes.zinc.light.colorScheme.background,
               footerDecoration: const BoxDecoration(),
             ),
           ),

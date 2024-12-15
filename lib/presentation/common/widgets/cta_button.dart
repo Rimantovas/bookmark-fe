@@ -23,7 +23,7 @@ class CTAButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bgColor = this.bgColor ?? context.colors.primary;
-    final textColor = this.textColor ?? context.colors.white;
+    final textColor = this.textColor ?? context.colors.primary;
 
     return Tappable.animated(
       onTap: onPressed,

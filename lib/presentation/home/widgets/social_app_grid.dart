@@ -70,9 +70,9 @@ class SocialAppCard extends StatelessWidget {
         height: height.toDouble(),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: context.colors.grey,
+          color: context.colors.border,
           border: selected
-              ? Border.all(color: context.colors.dark, width: 2)
+              ? Border.all(color: context.colors.primary, width: 2)
               : null,
         ),
         child: Padding(

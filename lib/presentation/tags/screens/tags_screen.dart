@@ -77,7 +77,7 @@ class _CreateTagTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: BoxDecoration(
-          color: context.colors.grey,
+          color: context.colors.border,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -85,7 +85,7 @@ class _CreateTagTile extends StatelessWidget {
             Icon(
               HugeIcons.strokeRoundedPlusSign,
               size: 20,
-              color: context.colors.dark,
+              color: context.colors.primary,
             ),
             12.widthBox,
             const Expanded(child: Text('Create new tag')),

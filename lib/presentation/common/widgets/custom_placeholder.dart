@@ -34,19 +34,20 @@ class CustomPlaceholder extends StatelessWidget {
         type.asset.call(
           width: 50,
           height: 50,
-          colorFilter: ColorFilter.mode(context.colors.dark, BlendMode.srcIn),
+          colorFilter:
+              ColorFilter.mode(context.colors.primary, BlendMode.srcIn),
         ),
         12.heightBox,
         Text(
           title,
-          style: context.styles.button2.copyWith(color: context.colors.dark),
+          style: context.styles.button2.copyWith(color: context.colors.primary),
         ),
         if (subtitle != null) ...[
           4.heightBox,
           Text(
             subtitle!,
             style: context.styles.body2.copyWith(
-              color: context.colors.dark,
+              color: context.colors.primary,
             ),
           ),
         ]

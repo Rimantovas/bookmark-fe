@@ -31,8 +31,8 @@ class AuthScreen extends StatelessWidget {
                   style: FScaffoldStyle(
                     backgroundColor: Colors.transparent,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                    footerDecoration: BoxDecoration(
-                      color: context.colors.dark,
+                    footerDecoration: const BoxDecoration(
+                      color: Colors.transparent,
                     ),
                   ),
                   content: Column(

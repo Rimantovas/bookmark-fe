@@ -1,19 +1,11 @@
-import 'package:app/presentation/common/utils/colors.dart';
 import 'package:app/presentation/common/utils/styles.dart';
 import 'package:app/presentation/common/utils/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:forui/forui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AppTheme {
-  static ColorScheme get colorScheme {
-    final colors = AppColors();
-    return ColorScheme.dark(
-      primary: colors.primary,
-      secondary: colors.dark,
-    );
-  }
-
   static PaintingEffect skeletonizerEffect(BuildContext context) =>
       const PulseEffect(
         from: Color(0xffE5E7EB),
@@ -30,55 +22,66 @@ class AppTheme {
 
   static ThemeData themeData() {
     final textStyles = AppStyles();
-    final colors = AppColors();
+
+    final colors = FThemes.zinc.light.colorScheme;
 
     return ThemeData(
       useMaterial3: true,
-      colorScheme: colorScheme,
+      colorScheme: ColorScheme(
+        brightness: Brightness.light,
+        primary: colors.primary,
+        onPrimary: colors.primaryForeground,
+        secondary: colors.secondary,
+        onSecondary: colors.secondaryForeground,
+        error: colors.destructive,
+        onError: colors.destructiveForeground,
+        surface: colors.background,
+        onSurface: colors.foreground,
+      ),
       appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: true,
-        backgroundColor: colors.white,
-        foregroundColor: colors.dark,
+        backgroundColor: colors.background,
+        foregroundColor: colors.foreground,
         surfaceTintColor: Colors.transparent,
-        titleTextStyle: textStyles.button1.copyWith(color: colors.dark),
+        titleTextStyle: textStyles.button1.copyWith(color: colors.foreground),
         elevation: 0,
       ),
-      iconTheme: IconThemeData(color: colors.dark),
+      iconTheme: IconThemeData(color: colors.foreground),
       dividerTheme: DividerThemeData(
-        color: colors.grey,
+        color: colors.border,
       ),
-      cardColor: colors.white,
-      splashColor: colors.grey,
+      cardColor: colors.background,
+      splashColor: colors.border,
       cardTheme: CardTheme(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        shadowColor: colors.grey,
+        shadowColor: colors.border,
       ),
       checkboxTheme: CheckboxThemeData(
-        checkColor: WidgetStateProperty.resolveWith((_) => colors.white),
+        checkColor: WidgetStateProperty.resolveWith((_) => colors.foreground),
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return colors.primary;
           } else if (states.contains(WidgetState.focused)) {
-            return colors.dark;
+            return colors.foreground;
           }
 
-          return colors.dark;
+          return colors.foreground;
         }),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        side: BorderSide(color: colors.grey),
+        side: BorderSide(color: colors.border),
       ),
       chipTheme: ChipThemeData(
         selectedColor: colors.primary,
-        backgroundColor: colors.dark,
+        backgroundColor: colors.background,
       ),
-      dividerColor: colors.grey,
+      dividerColor: colors.border,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: colors.primary,
-          foregroundColor: colors.white,
+          foregroundColor: colors.background,
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
           shape: const StadiumBorder(),
         ),
@@ -86,49 +89,48 @@ class AppTheme {
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colors.primary,
       ),
-      scaffoldBackgroundColor: colors.white,
+      scaffoldBackgroundColor: colors.background,
       textSelectionTheme: TextSelectionThemeData(
         // cursorColor: Color.fromRGBO(66, 133, 244, 1.0),
-        selectionColor: colors.white.withOpacity(.2),
-        selectionHandleColor: colors.white.withOpacity(.2),
+        selectionColor: colors.background.withOpacity(.2),
+        selectionHandleColor: colors.background.withOpacity(.2),
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return colors.white;
+            return colors.background;
           }
 
-          return colors.white;
+          return colors.background;
         }),
         trackColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return colors.primary;
           }
 
-          return colors.grey;
+          return colors.border;
         }),
       ),
       // pageTransitionsTheme: const CustomCupertinoTransitionsTheme(),
       textTheme: TextTheme(
-        displayLarge: textStyles.h1.copyWith(color: colors.dark),
-        displayMedium: textStyles.h2.copyWith(color: colors.dark),
-        displaySmall: textStyles.h3.copyWith(color: colors.dark),
-        headlineLarge: textStyles.h4.copyWith(color: colors.dark),
-        headlineMedium: textStyles.h4.copyWith(color: colors.dark),
-        headlineSmall: textStyles.h5.copyWith(color: colors.dark),
-        titleLarge: textStyles.h6.copyWith(color: colors.dark),
-        titleMedium: textStyles.button1.copyWith(color: colors.dark),
-        titleSmall: textStyles.button2.copyWith(color: colors.dark),
-        labelLarge: textStyles.button1.copyWith(color: colors.dark),
-        labelMedium: textStyles.button2.copyWith(color: colors.dark),
-        labelSmall: textStyles.button3.copyWith(color: colors.dark),
-        bodyLarge: textStyles.body1.copyWith(color: colors.dark),
-        bodyMedium: textStyles.body2.copyWith(color: colors.dark),
-        bodySmall: textStyles.body3.copyWith(color: colors.dark),
+        displayLarge: textStyles.h1.copyWith(color: colors.primary),
+        displayMedium: textStyles.h2.copyWith(color: colors.primary),
+        displaySmall: textStyles.h3.copyWith(color: colors.primary),
+        headlineLarge: textStyles.h4.copyWith(color: colors.primary),
+        headlineMedium: textStyles.h4.copyWith(color: colors.primary),
+        headlineSmall: textStyles.h5.copyWith(color: colors.primary),
+        titleLarge: textStyles.h6.copyWith(color: colors.primary),
+        titleMedium: textStyles.button1.copyWith(color: colors.primary),
+        titleSmall: textStyles.button2.copyWith(color: colors.primary),
+        labelLarge: textStyles.button1.copyWith(color: colors.primary),
+        labelMedium: textStyles.button2.copyWith(color: colors.primary),
+        labelSmall: textStyles.button3.copyWith(color: colors.primary),
+        bodyLarge: textStyles.body1.copyWith(color: colors.primary),
+        bodyMedium: textStyles.body2.copyWith(color: colors.primary),
+        bodySmall: textStyles.body3.copyWith(color: colors.primary),
       ),
       extensions: [
         AppThemeExtension(
-          colors: colors,
           styles: textStyles,
         ),
       ],

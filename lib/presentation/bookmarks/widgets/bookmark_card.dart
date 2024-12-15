@@ -64,7 +64,7 @@ class _BookmarkCardState extends State<BookmarkCard>
                             FTile(
                               prefixIcon: HugeIcon(
                                 icon: HugeIcons.strokeRoundedEdit01,
-                                color: context.colors.dark,
+                                color: context.colors.primary,
                               ),
                               title: const Text('Edit'),
                               onPress: () {
@@ -76,11 +76,12 @@ class _BookmarkCardState extends State<BookmarkCard>
                             FTile(
                               prefixIcon: FIcon(
                                 FAssets.icons.delete,
-                                color: context.colors.red,
+                                color: context.colors.destructive,
                               ),
                               title: Text(
                                 'Delete',
-                                style: TextStyle(color: context.colors.red),
+                                style: TextStyle(
+                                    color: context.colors.destructive),
                               ),
                               onPress: () {
                                 controller.hide();
@@ -97,7 +98,7 @@ class _BookmarkCardState extends State<BookmarkCard>
                     ],
                     child: HugeIcon(
                       icon: HugeIcons.strokeRoundedMoreVertical,
-                      color: context.colors.dark,
+                      color: context.colors.primary,
                     ),
                   ),
               ],
@@ -118,7 +119,7 @@ class _BookmarkCardState extends State<BookmarkCard>
               Text(
                 widget.bookmark.description!,
                 style: context.styles.body2.copyWith(
-                  color: context.colors.dark.withOpacity(0.6),
+                  color: context.colors.primary.withOpacity(0.6),
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

@@ -1,10 +1,10 @@
 import 'package:app/main.dart';
-import 'package:app/presentation/common/utils/colors.dart';
 import 'package:app/presentation/common/utils/routes.dart';
 import 'package:app/presentation/common/utils/styles.dart';
 import 'package:app/presentation/common/widgets/confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 
 // Global overlay entry for loading
@@ -24,7 +24,7 @@ extension ContextExtensions on BuildContext {
         extra: route.extra,
       );
 
-  AppColors get colors => AppColors();
+  FColorScheme get colors => theme.colorScheme;
 
   AppStyles get styles => AppStyles();
 }
@@ -58,7 +58,7 @@ extension CubitX<State> on Cubit<State> {
         color: Colors.black.withOpacity(0.5),
         child: Center(
           child: CircularProgressIndicator(
-            color: context.colors.white,
+            color: context.colors.foreground,
           ),
         ),
       ),
