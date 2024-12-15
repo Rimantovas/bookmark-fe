@@ -113,3 +113,12 @@ class UpdateCollectionRoute extends AppRoute {
           ),
         );
 }
+
+class SocialAppBookmarksRoute extends AppRoute {
+  SocialAppBookmarksRoute({required String socialAppId})
+      : super(
+          name: 'social_app_bookmarks',
+          path: '/social-apps/:id',
+          params: {'id': socialAppId},
+        );
+}

@@ -3,6 +3,7 @@ import 'package:app/presentation/auth/screens/auth_screen.dart';
 import 'package:app/presentation/bookmarks/models/update_bookmark_route_extra.dart';
 import 'package:app/presentation/bookmarks/screens/collection_bookmarks_screen.dart';
 import 'package:app/presentation/bookmarks/screens/create_bookmark_screen.dart';
+import 'package:app/presentation/bookmarks/screens/social_app_bookmarks_screen.dart';
 import 'package:app/presentation/bookmarks/screens/update_bookmark_screen.dart';
 import 'package:app/presentation/collections/models/update_collection_route_extra.dart';
 import 'package:app/presentation/collections/screens/create_collection_screen.dart';
@@ -109,6 +110,14 @@ class AppRouter {
                   onUpdated: extra.onUpdated,
                 ),
               );
+            },
+          ),
+          GoRoute(
+            path: 'social-apps/:id',
+            name: 'social_app_bookmarks',
+            builder: (context, state) {
+              final id = state.pathParameters['id']!;
+              return SocialAppBookmarksScreen(socialAppId: id);
             },
           ),
         ],

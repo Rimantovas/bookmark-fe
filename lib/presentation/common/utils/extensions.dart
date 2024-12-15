@@ -11,8 +11,6 @@ import 'package:go_router/go_router.dart';
 OverlayEntry? _loadingOverlay;
 
 extension ContextExtensions on BuildContext {
-  ThemeData get theme => Theme.of(this);
-
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
   Size get mediaSize => MediaQuery.of(this).size;

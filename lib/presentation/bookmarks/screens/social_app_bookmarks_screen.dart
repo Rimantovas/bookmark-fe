@@ -1,50 +1,50 @@
 import 'package:app/main.dart';
-import 'package:app/presentation/bookmarks/bloc/collection_bookmarks_bloc.dart';
+import 'package:app/presentation/bookmarks/bloc/social_app_bookmarks_bloc.dart';
 import 'package:app/presentation/bookmarks/screens/bookmarks_list_screen.dart';
 import 'package:app/presentation/common/utils/routes.dart';
-import 'package:app/presentation/home/widgets/collection_card.dart';
+import 'package:app/presentation/home/widgets/social_app_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CollectionBookmarksScreen extends StatelessWidget {
-  const CollectionBookmarksScreen({
+class SocialAppBookmarksScreen extends StatelessWidget {
+  const SocialAppBookmarksScreen({
     super.key,
-    required this.collectionId,
+    required this.socialAppId,
   });
 
-  final String collectionId;
+  final String socialAppId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CollectionBookmarksBloc(collectionId),
-      child: BlocBuilder<CollectionBookmarksBloc, CollectionBookmarksState>(
+      create: (context) => SocialAppBookmarksBloc(socialAppId),
+      child: BlocBuilder<SocialAppBookmarksBloc, SocialAppBookmarksState>(
         builder: (context, state) {
-          if (state.collection == null && !state.isLoading) {
+          if (state.socialApp == null && !state.isLoading) {
             return Container(); // Will be replaced with error screen
           }
 
           return BookmarksListScreen(
-            title: state.collection?.title ?? '',
+            title: state.socialApp?.title ?? '',
+            image: state.socialApp != null
+                ? SocialAppCard(socialApp: state.socialApp!)
+                : const SizedBox.shrink(),
+            subtitle: state.socialApp?.website,
             bookmarks: state.bookmarks,
             isLoading: state.isLoading,
-            image: CollectionImages(
-                images: state.collection?.images ?? [],
-                height: 100,
-                width: 100),
             onEditBookmark: (bookmark) {
               router.push(UpdateBookmarkRoute(
                 bookmark: bookmark,
                 onUpdated: (updatedBookmark) {
                   context
-                      .read<CollectionBookmarksBloc>()
+                      .read<SocialAppBookmarksBloc>()
                       .updateBookmark(updatedBookmark);
                 },
               ));
             },
             onDeleteBookmark: (bookmark) {
               context
-                  .read<CollectionBookmarksBloc>()
+                  .read<SocialAppBookmarksBloc>()
                   .deleteBookmark(bookmark.id);
             },
           );

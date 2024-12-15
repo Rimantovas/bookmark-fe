@@ -55,6 +55,7 @@ dependencies:
   metadata_fetch: ^0.4.2
   html: ^0.15.5
   ogp_data_extract: ^0.1.4
+  flutter_svg: ^2.0.16
 
 dev_dependencies:
   flutter_test:

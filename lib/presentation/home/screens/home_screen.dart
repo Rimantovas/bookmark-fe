@@ -29,7 +29,12 @@ class HomeScreen extends StatelessWidget {
               bloc: GetIt.I<CatalogBloc>(),
               selector: (state) => state.socialApps,
               builder: (context, socialApps) {
-                return SocialAppGrid(socialApps: socialApps);
+                return SocialAppGrid(
+                  socialApps: socialApps,
+                  onTap: (app) {
+                    router.push(SocialAppBookmarksRoute(socialAppId: app.id));
+                  },
+                );
               },
             ),
             24.heightBox,
@@ -65,6 +70,7 @@ class HomeScreen extends StatelessWidget {
                       style: FButtonStyle.outline,
                       label: const Text('Create new collection'),
                     ),
+                    24.heightBox,
                   ],
                 );
               },

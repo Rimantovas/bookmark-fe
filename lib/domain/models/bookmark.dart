@@ -1,5 +1,4 @@
 import 'package:app/domain/models/tag.dart';
-import 'package:app/presentation/common/utils/helpers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:mock_data/mock_data.dart';
 
@@ -43,7 +42,7 @@ class Bookmark with BookmarkMappable {
           tags: [],
           title: mockName(),
           description: mockString(),
-          imageUrl: mockImageUrl(),
+          // imageUrl: mockImageUrl(),
           collectionId: mockUUID(),
           userId: mockUUID(),
           createdAt: DateTime.now(),

@@ -1,6 +1,7 @@
 import 'package:app/domain/models/bookmark.dart';
 import 'package:app/presentation/bookmarks/widgets/bookmark_card.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
+import 'package:app/presentation/common/widgets/custom_placeholder.dart';
 import 'package:app/presentation/common/widgets/loader.dart';
 import 'package:app/presentation/common/widgets/tappable.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +17,13 @@ class BookmarksListScreen extends StatelessWidget {
     this.isLoading = false,
     this.onEditBookmark,
     this.onDeleteBookmark,
+    this.subtitle,
+    required this.image,
   });
 
   final String title;
+  final String? subtitle;
+  final Widget image;
   final List<Bookmark> bookmarks;
   final bool isLoading;
   final Function(Bookmark)? onEditBookmark;
@@ -39,47 +44,65 @@ class BookmarksListScreen extends StatelessWidget {
               ),
             ),
         ],
-        title: Text(title),
+        title: const Text(''),
       ),
-      content: Builder(builder: (context) {
-        final bookmarks = isLoading
-            ? List.generate(10, (_) => Bookmark.mock())
-            : this.bookmarks;
-
-        if (bookmarks.isEmpty) {
-          return Center(
-            child: Text(
-              'No bookmarks yet',
-              style: context.styles.body1,
-            ),
-          );
-        }
-        return AppLoader(
-          isLoading: isLoading,
-          child: ListView.separated(
-            padding: EdgeInsets.zero,
-            itemCount: bookmarks.length,
-            separatorBuilder: (_, __) => 12.heightBox,
-            itemBuilder: (context, index) {
-              return BookmarkCard(
-                bookmark: bookmarks[index],
-                onTap: () {
-                  launchUrl(
-                    Uri.parse(bookmarks[index].link),
-                    mode: LaunchMode.externalApplication,
-                  );
-                },
-                onEdit: onEditBookmark != null
-                    ? () => onEditBookmark!(bookmarks[index])
-                    : null,
-                onDelete: onDeleteBookmark != null
-                    ? () => onDeleteBookmark!(bookmarks[index])
-                    : null,
-              );
-            },
+      style: context.theme.scaffoldStyle
+          .copyWith(contentPadding: const EdgeInsets.symmetric(horizontal: 16)),
+      content: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: image,
           ),
-        );
-      }),
+          12.heightBox,
+          Text(title, style: context.styles.button1),
+          if (subtitle != null) ...[
+            4.heightBox,
+            Text(subtitle!, style: context.styles.body2),
+          ],
+          24.heightBox,
+          Expanded(
+            child: Builder(builder: (context) {
+              final bookmarks = isLoading
+                  ? List.generate(10, (_) => Bookmark.mock())
+                  : this.bookmarks;
+
+              if (bookmarks.isEmpty) {
+                return const Center(
+                  child: CustomPlaceholder(
+                    title: 'No bookmarks yet',
+                  ),
+                );
+              }
+              return AppLoader(
+                isLoading: isLoading,
+                child: ListView.separated(
+                  padding: EdgeInsets.zero,
+                  itemCount: bookmarks.length,
+                  separatorBuilder: (_, __) => 12.heightBox,
+                  itemBuilder: (context, index) {
+                    return BookmarkCard(
+                      bookmark: bookmarks[index],
+                      onTap: () {
+                        launchUrl(
+                          Uri.parse(bookmarks[index].link),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      onEdit: onEditBookmark != null
+                          ? () => onEditBookmark!(bookmarks[index])
+                          : null,
+                      onDelete: onDeleteBookmark != null
+                          ? () => onDeleteBookmark!(bookmarks[index])
+                          : null,
+                    );
+                  },
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
     );
   }
 }

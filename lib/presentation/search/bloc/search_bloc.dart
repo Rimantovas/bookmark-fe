@@ -38,6 +38,7 @@ class SearchBloc extends Cubit<SearchState> {
   }
 
   void updateQuery(String query) {
+    if (query == state.query) return;
     emit(state.copyWith(query: query));
 
     if (query.length < 3) {
@@ -50,7 +51,15 @@ class SearchBloc extends Cubit<SearchState> {
       return;
     }
 
+    print('search');
+
     search();
+  }
+
+  void addQuery(String query) {
+    emit(state.copyWith(query: query));
+    state.queryController.text = query;
+    updateQuery(query);
   }
 
   Future<void> search() async {

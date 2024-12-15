@@ -38,7 +38,7 @@ class _CollectionCardState extends State<CollectionCard>
     return Tappable.animated(
       onTap: widget.onTap,
       child: FCard(
-        image: _CollectionImages(images: widget.collection.images),
+        image: CollectionImages(images: widget.collection.images),
         title: Row(
           children: [
             Expanded(child: Text(widget.collection.title)),
@@ -99,17 +99,24 @@ class _CollectionCardState extends State<CollectionCard>
   }
 }
 
-class _CollectionImages extends StatelessWidget {
-  const _CollectionImages({
+class CollectionImages extends StatelessWidget {
+  const CollectionImages({
+    super.key,
     required this.images,
+    this.height = 150,
+    this.width = double.infinity,
   });
 
   final List<String> images;
 
+  final double height;
+  final double width;
+
   @override
   Widget build(BuildContext context) {
     final placeholder = Container(
-      height: 150,
+      height: height,
+      width: width,
       color: context.colors.grey,
       child: Center(
         child: HugeIcon(
@@ -124,11 +131,10 @@ class _CollectionImages extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 150,
+      height: height,
+      width: width,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final width = constraints.maxWidth;
-
           switch (images.length) {
             case 1:
               return _buildImage(images[0]);

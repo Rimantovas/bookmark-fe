@@ -1,29 +1,52 @@
-import 'package:app/domain/enums/user_role.dart';
 import 'package:app/domain/models/bookmark.dart';
 import 'package:app/domain/models/collection.dart';
 import 'package:app/domain/models/user.dart';
+import 'package:app/main.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
+import 'package:app/presentation/common/utils/routes.dart';
+import 'package:app/presentation/common/widgets/custom_placeholder.dart';
+import 'package:app/presentation/common/widgets/keyboard_dismissable.dart';
+import 'package:app/presentation/search/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FScaffold(
-      header: const FHeader(
-        title: Text('Search'),
-      ),
-      content: Column(
-        children: [
-          const FTextField(
-            hint: 'Search...',
-          ),
-          Expanded(
-            child: _buildContent('test'), // Replace with actual search query
-          ),
-        ],
+    return BlocProvider(
+      create: (context) => SearchBloc(),
+      child: BlocSelector<SearchBloc, SearchState,
+          (String, TextEditingController)>(
+        selector: (state) {
+          return (state.query, state.queryController);
+        },
+        builder: (context, state) {
+          final (query, controller) = state;
+          return KeyboardDismissable(
+            child: FScaffold(
+              header: const FHeader(
+                title: Text('Search'),
+              ),
+              content: Column(
+                children: [
+                  FTextField(
+                    controller: controller,
+                    hint: 'Search...',
+                  ),
+                  Expanded(
+                    child: _buildContent(
+                      query,
+                    ), // Replace with actual search query
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -54,7 +77,7 @@ class _SearchHistory extends StatelessWidget {
             title: Text(query),
             suffixIcon: const Icon(Icons.close),
             onPress: () {
-              // TODO: Use this search query
+              context.read<SearchBloc>().addQuery(query);
             },
           );
         }).toList(),
@@ -68,46 +91,48 @@ class _SearchResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: Column(
-        children: [
-          _BookmarksGroup(
-            bookmarks: List.generate(
-              3,
-              (i) => Bookmark(
-                id: '$i',
-                link: 'https://example.com',
-                collectionId: '1',
-                userId: '1',
-                tags: const [],
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        if (state.bookmarks.isEmpty &&
+            state.collections.isEmpty &&
+            state.users.isEmpty) {
+          return const Column(
+            children: [
+              Spacer(
+                flex: 1,
               ),
-            ),
-          ),
-          16.heightBox,
-          _CollectionsGroup(
-            collections: List.generate(
-              2,
-              (i) => Collection.mock(),
-            ),
-          ),
-          16.heightBox,
-          _UsersGroup(
-            users: List.generate(
-              2,
-              (i) => User(
-                id: '$i',
-                name: 'User $i',
-                username: 'user$i',
-                email: 'user$i@example.com',
-                role: UserRole.regular,
+              Center(
+                child: CustomPlaceholder(
+                  title: 'No results found',
+                  type: PlaceholderType.empty,
+                ),
               ),
-            ),
+              Spacer(
+                flex: 2,
+              ),
+            ],
+          );
+        }
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Column(
+            children: [
+              _BookmarksGroup(
+                bookmarks: state.bookmarks,
+              ),
+              16.heightBox,
+              _CollectionsGroup(
+                collections: state.collections,
+              ),
+              16.heightBox,
+              _UsersGroup(
+                users: state.users,
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -138,7 +163,10 @@ class _BookmarksGroup extends StatelessWidget {
               : null,
           suffixIcon: FIcon(FAssets.icons.chevronRight),
           onPress: () {
-            // TODO: Navigate to bookmark
+            launchUrl(
+              Uri.parse(bookmark.link),
+              mode: LaunchMode.externalApplication,
+            );
           },
         );
       }).toList(),
@@ -163,7 +191,9 @@ class _CollectionsGroup extends StatelessWidget {
           title: Text(collection.title),
           suffixIcon: FIcon(FAssets.icons.chevronRight),
           onPress: () {
-            // TODO: Navigate to collection
+            router.push(CollectionBookmarksRoute(
+              collectionId: collection.id,
+            ));
           },
         );
       }).toList(),

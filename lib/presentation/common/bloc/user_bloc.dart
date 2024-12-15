@@ -29,6 +29,10 @@ class UserBloc extends Cubit<UserState> {
     return super.close();
   }
 
+  void logout() {
+    emit(UserInitial());
+  }
+
   Future<bool> initUser() async {
     try {
       emit(UserLoading());

@@ -1,3 +1,4 @@
+import 'package:app/application/usecases/remove_access_token.dart';
 import 'package:app/domain/models/user.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/colors.dart';
@@ -12,8 +13,8 @@ import 'package:hugeicons/hugeicons.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  Widget _tileIcon(IconData icon) =>
-      Icon(icon, size: 24, color: AppColors().dark);
+  Widget _tileIcon(IconData icon, {bool destructive = false}) => Icon(icon,
+      size: 24, color: destructive ? AppColors().red : AppColors().dark);
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,19 @@ class ProfileScreen extends StatelessWidget {
                         suffixIcon: FIcon(FAssets.icons.chevronRight),
                         onPress: () {
                           // TODO: Implement role change
+                        },
+                      ),
+                      FTile(
+                        prefixIcon: _tileIcon(HugeIcons.strokeRoundedLogout01,
+                            destructive: true),
+                        title: Text('Logout',
+                            style: TextStyle(color: context.colors.red)),
+                        suffixIcon: FIcon(
+                          FAssets.icons.chevronRight,
+                          color: context.colors.red,
+                        ),
+                        onPress: () {
+                          RemoveAccessToken().call();
                         },
                       ),
                     ],
