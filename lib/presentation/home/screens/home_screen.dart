@@ -5,6 +5,8 @@ import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/utils/routes.dart';
+import 'package:app/presentation/common/utils/sheet_utils.dart';
+import 'package:app/presentation/common/widgets/custom_placeholder.dart';
 import 'package:app/presentation/home/widgets/collection_card.dart';
 import 'package:app/presentation/home/widgets/social_app_grid.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FScaffold(
+      resizeToAvoidBottomInset: false,
       header: const FHeader(
         title: Text('Home'),
       ),
@@ -32,7 +35,14 @@ class HomeScreen extends StatelessWidget {
                 return SocialAppGrid(
                   socialApps: socialApps,
                   onTap: (app) {
-                    router.push(SocialAppBookmarksRoute(socialAppId: app.id));
+                    final isGuest = GetIt.I<UserBloc>().state.isGuest;
+                    if (isGuest) {
+                      showAuthSheet(context, feature: 'view bookmarks');
+                    } else {
+                      router.push(SocialAppBookmarksRoute(
+                        socialAppId: app.id,
+                      ));
+                    }
                   },
                 );
               },
@@ -50,26 +60,52 @@ class HomeScreen extends StatelessWidget {
                       style: context.styles.button1,
                     ),
                     8.heightBox,
-                    ...collections.map(
-                      (collection) => Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: CollectionCard(
-                          collection: collection,
-                          onTap: () {
-                            router.push(CollectionBookmarksRoute(
-                              collectionId: collection.id,
-                            ));
-                          },
+                    if (collections.isEmpty)
+                      Center(
+                        child: CustomPlaceholder(
+                          title: 'No collections yet',
+                          action: SizedBox(
+                            width: 180,
+                            child: FButton(
+                              onPress: () {
+                                final isGuest =
+                                    GetIt.I<UserBloc>().state.isGuest;
+                                if (isGuest) {
+                                  showAuthSheet(
+                                    context,
+                                    feature: 'create collections',
+                                  );
+                                } else {
+                                  router.push(CreateCollectionRoute());
+                                }
+                              },
+                              label: const Text('Create first one'),
+                            ),
+                          ),
+                        ),
+                      )
+                    else ...[
+                      ...collections.map(
+                        (collection) => Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: CollectionCard(
+                            collection: collection,
+                            onTap: () {
+                              router.push(CollectionBookmarksRoute(
+                                collectionId: collection.id,
+                              ));
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    FButton(
-                      onPress: () {
-                        router.push(CreateCollectionRoute());
-                      },
-                      style: FButtonStyle.outline,
-                      label: const Text('Create new collection'),
-                    ),
+                      FButton(
+                        onPress: () {
+                          router.push(CreateCollectionRoute());
+                        },
+                        style: FButtonStyle.outline,
+                        label: const Text('Create new collection'),
+                      ),
+                    ],
                     24.heightBox,
                   ],
                 );

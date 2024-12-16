@@ -28,6 +28,7 @@ class SearchScreen extends StatelessWidget {
           final (query, controller) = state;
           return KeyboardDismissable(
             child: FScaffold(
+              resizeToAvoidBottomInset: false,
               header: const FHeader(
                 title: Text('Search'),
               ),
@@ -68,20 +69,24 @@ class _SearchHistory extends StatelessWidget {
     // TODO: Get actual search history
     final searchHistory = ['flutter', 'dart', 'forui'];
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: FTileGroup(
-        children: searchHistory.map((query) {
-          return FTile(
-            prefixIcon: FIcon(FAssets.icons.clock),
-            title: Text(query),
-            suffixIcon: const Icon(Icons.close),
-            onPress: () {
-              context.read<SearchBloc>().addQuery(query);
-            },
-          );
-        }).toList(),
-      ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 12.0),
+          child: FTileGroup(
+            children: searchHistory.map((query) {
+              return FTile(
+                prefixIcon: FIcon(FAssets.icons.clock),
+                title: Text(query),
+                suffixIcon: const Icon(Icons.close),
+                onPress: () {
+                  context.read<SearchBloc>().addQuery(query);
+                },
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -104,7 +109,6 @@ class _SearchResults extends StatelessWidget {
               Center(
                 child: CustomPlaceholder(
                   title: 'No results found',
-                  type: PlaceholderType.empty,
                 ),
               ),
               Spacer(

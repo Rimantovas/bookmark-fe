@@ -32,6 +32,7 @@ class BookmarkForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FScaffold(
+      resizeToAvoidBottomInset: false,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -120,7 +121,7 @@ class BookmarkForm extends StatelessWidget {
                 axis: Axis.vertical,
                 label: const Text('Tags'),
                 child: FSelectTileGroup<Tag>(
-                  controller: tagsController,
+                  groupController: tagsController,
                   description: const Text('Select tags for your bookmark'),
                   children: tags
                       .map(

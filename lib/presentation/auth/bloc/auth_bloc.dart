@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app/application/usecases/save_access_token.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:auth0_flutter/auth0_flutter.dart';
@@ -16,7 +18,9 @@ class AuthBloc extends Cubit<AuthState> {
   late final Auth0Web auth0Web =
       Auth0Web(dotenv.env['AUTH0_DOMAIN']!, dotenv.env['AUTH0_CLIENT_ID']!);
 
-  Future<void> signInWithGoogle() async {
+  Future<void> signInWithGoogle({
+    VoidCallback? onSuccess,
+  }) async {
     emit(state.copyWith(isLoading: true));
     final credentials = await auth0
         .webAuthentication(scheme: dotenv.env['AUTH0_CUSTOM_SCHEME'])
@@ -33,6 +37,8 @@ class AuthBloc extends Cubit<AuthState> {
     await SaveAccessToken().call(accessToken);
 
     await _userBloc.initUser();
+
+    onSuccess?.call();
 
     emit(state.copyWith(isLoading: false));
   }

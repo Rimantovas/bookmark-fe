@@ -43,7 +43,7 @@ class _CollectionCardState extends State<CollectionCard>
           children: [
             Expanded(child: Text(widget.collection.title)),
             FPopoverMenu.tappable(
-              controller: controller,
+              popoverController: controller,
               menuAnchor: Alignment.bottomRight,
               childAnchor: Alignment.topRight,
               menu: [

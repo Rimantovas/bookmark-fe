@@ -54,7 +54,7 @@ class _BookmarkCardState extends State<BookmarkCard>
                 ),
                 if (widget.onEdit != null || widget.onDelete != null)
                   FPopoverMenu.tappable(
-                    controller: controller,
+                    popoverController: controller,
                     menuAnchor: Alignment.bottomRight,
                     childAnchor: Alignment.topRight,
                     menu: [

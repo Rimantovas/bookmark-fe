@@ -1,7 +1,11 @@
+import 'package:app/domain/enums/user_role.dart';
 import 'package:app/domain/models/tag.dart';
 import 'package:app/main.dart';
+import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/utils/routes.dart';
+import 'package:app/presentation/common/utils/sheet_utils.dart';
+import 'package:app/presentation/common/widgets/custom_placeholder.dart';
 import 'package:app/presentation/common/widgets/loader.dart';
 import 'package:app/presentation/common/widgets/tappable.dart';
 import 'package:app/presentation/tags/bloc/tags_bloc.dart';
@@ -26,15 +30,29 @@ class TagsScreen extends StatelessWidget {
         return AppLoader(
           isLoading: state.isLoading,
           child: FScaffold(
+            resizeToAvoidBottomInset: false,
             header: FHeader(
               title: const Text('Tags'),
               actions: [
                 FHeaderAction(
-                  icon: const Icon(Icons.add),
-                  onPress: () {
-                    router.go(CreateTagRoute());
-                  },
-                ),
+                    icon: const Icon(Icons.add),
+                    onPress: () {
+                      final isGuest = GetIt.I<UserBloc>().state.isGuest;
+                      final isPremium =
+                          GetIt.I<UserBloc>().state is UserSuccess &&
+                              (GetIt.I<UserBloc>().state.user as UserSuccess)
+                                      .user
+                                      .role ==
+                                  UserRole.premium;
+
+                      if (isGuest) {
+                        showAuthSheet(context, feature: 'create tags');
+                      } else if (!isPremium) {
+                        showPremiumSheet(context);
+                      } else {
+                        router.go(CreateTagRoute());
+                      }
+                    }),
               ],
             ),
             content: SingleChildScrollView(
@@ -54,7 +72,20 @@ class TagsScreen extends StatelessWidget {
                             },
                           ),
                         )),
-                  ],
+                  ] else
+                    CustomPlaceholder(
+                      title: 'No tags yet',
+                      type: PlaceholderType.tags,
+                      action: SizedBox(
+                        width: 180,
+                        child: FButton(
+                          onPress: () {
+                            router.go(CreateTagRoute());
+                          },
+                          label: const Text('Create new tag'),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),

@@ -1,7 +1,9 @@
 import 'package:app/main.dart';
+import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:app/presentation/common/utils/helpers.dart';
 import 'package:app/presentation/common/utils/routes.dart';
+import 'package:app/presentation/common/utils/sheet_utils.dart';
 import 'package:app/presentation/common/widgets/tappable.dart';
 import 'package:app/presentation/home/bloc/home_bloc.dart';
 import 'package:app/presentation/home/screens/home_screen.dart';
@@ -56,6 +58,7 @@ class _HomeWrapperScreenState extends State<HomeWrapperScreen>
             cornerRadius: Tween(begin: 0.0, end: 16.0),
             child: FScaffold(
               contentPad: false,
+              resizeToAvoidBottomInset: false,
               content: TabBarView(
                 controller: _tabController,
                 children: const [
@@ -127,7 +130,14 @@ class _BuildBottomNavigationBar extends StatelessWidget {
                   icon: HugeIcons.strokeRoundedAdd01,
                   isSelected: false,
                   onTap: () => AppVibrationFunction(
-                    () => router.push(CreateBookmarkRoute()),
+                    () {
+                      final isGuest = GetIt.I<UserBloc>().state.isGuest;
+                      if (isGuest) {
+                        showAuthSheet(context, feature: 'create bookmarks');
+                      } else {
+                        router.go(CreateBookmarkRoute());
+                      }
+                    },
                   ),
                 ),
                 _BuildBottomNavigationBarItem(

@@ -26,6 +26,7 @@ class ProfileScreen extends StatelessWidget {
         return AppLoader(
           isLoading: !state.isLoggedIn,
           child: FScaffold(
+            resizeToAvoidBottomInset: false,
             header: const FHeader(
               title: Text('Profile'),
             ),

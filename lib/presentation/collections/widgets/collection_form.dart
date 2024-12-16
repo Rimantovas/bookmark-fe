@@ -17,6 +17,7 @@ class CollectionForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FScaffold(
+      resizeToAvoidBottomInset: false,
       content: Column(
         children: [
           FTextField(

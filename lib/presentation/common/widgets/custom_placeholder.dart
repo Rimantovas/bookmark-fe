@@ -1,16 +1,20 @@
 import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:forui/forui.dart';
+import 'package:flutter_svg/svg.dart';
 
 enum PlaceholderType {
-  empty,
-  error,
+  search,
+  documents,
+  images,
+  tags,
 }
 
 extension CustomPlaceholderAssets on PlaceholderType {
-  SvgAsset get asset => switch (this) {
-        PlaceholderType.empty => FAssets.icons.searchX,
-        PlaceholderType.error => FAssets.icons.cross,
+  String get asset => switch (this) {
+        PlaceholderType.search => 'assets/images/NoSearchResults.svg',
+        PlaceholderType.documents => 'assets/images/NoDocuments.png',
+        PlaceholderType.images => 'assets/images/NoImages.png',
+        PlaceholderType.tags => 'assets/images/NoTags.svg',
       };
 }
 
@@ -19,28 +23,29 @@ class CustomPlaceholder extends StatelessWidget {
     super.key,
     required this.title,
     this.subtitle,
-    this.type = PlaceholderType.empty,
+    this.type = PlaceholderType.search,
+    this.action,
   });
 
   final String title;
   final String? subtitle;
   final PlaceholderType type;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        type.asset.call(
-          width: 50,
-          height: 50,
-          colorFilter:
-              ColorFilter.mode(context.colors.primary, BlendMode.srcIn),
+        SvgPicture.asset(
+          type.asset,
+          width: 160,
+          height: 160,
         ),
-        12.heightBox,
+        8.heightBox,
         Text(
           title,
-          style: context.styles.button2.copyWith(color: context.colors.primary),
+          style: context.styles.button1.copyWith(color: context.colors.primary),
         ),
         if (subtitle != null) ...[
           4.heightBox,
@@ -50,6 +55,10 @@ class CustomPlaceholder extends StatelessWidget {
               color: context.colors.primary,
             ),
           ),
+        ],
+        if (action != null) ...[
+          16.heightBox,
+          action!,
         ]
       ],
     );

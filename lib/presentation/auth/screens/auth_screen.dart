@@ -28,6 +28,7 @@ class AuthScreen extends StatelessWidget {
                   ),
                 ),
                 child: FScaffold(
+                  resizeToAvoidBottomInset: false,
                   style: FScaffoldStyle(
                     backgroundColor: Colors.transparent,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),

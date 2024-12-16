@@ -55,8 +55,7 @@ class UserBloc extends Cubit<UserState> {
   }
 
   void continueWithGuest() {
-    emit(UserGuest(
-        collections: List.generate(10, (index) => Collection.mock())));
+    emit(UserGuest(collections: []));
   }
 
   void deleteCollection(String id) {
@@ -113,6 +112,8 @@ abstract class UserState {
   User get user;
 
   String get stateHash;
+
+  bool get isGuest;
 }
 
 class UserInitial extends UserState {
@@ -124,6 +125,9 @@ class UserInitial extends UserState {
 
   @override
   String get stateHash => 'UserInitial';
+
+  @override
+  bool get isGuest => false;
 }
 
 class UserLoading extends UserState {
@@ -135,6 +139,9 @@ class UserLoading extends UserState {
 
   @override
   String get stateHash => 'UserLoading';
+
+  @override
+  bool get isGuest => false;
 }
 
 class UserSuccess extends UserState {
@@ -148,6 +155,9 @@ class UserSuccess extends UserState {
 
   @override
   String get stateHash => 'UserSuccess';
+
+  @override
+  bool get isGuest => false;
 }
 
 class UserGuest extends UserState {
@@ -161,6 +171,9 @@ class UserGuest extends UserState {
 
   @override
   String get stateHash => 'UserGuest';
+
+  @override
+  bool get isGuest => true;
 }
 
 class UserError extends UserState {
@@ -175,6 +188,9 @@ class UserError extends UserState {
 
   @override
   String get stateHash => 'UserError';
+
+  @override
+  bool get isGuest => false;
 }
 
 extension UserStateExtension on UserState {
