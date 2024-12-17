@@ -92,7 +92,7 @@ main runway decade horror favorite frozen begin design document kingdom predict 
 
 # Wireframes
 
-[wireframe](https://www.figma.com/design/aLN6EUvvwk1CG9mQ6co3Nc/Untitled?node-id=0-1&t=JOdLs6bosGI6lIHh-1)
+[Figma link](https://www.figma.com/design/aLN6EUvvwk1CG9mQ6co3Nc/Untitled?node-id=0-1&t=JOdLs6bosGI6lIHh-1)
 
 # Deployment diagram
 
