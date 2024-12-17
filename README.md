@@ -101,3 +101,7 @@ main runway decade horror favorite frozen begin design document kingdom predict 
 # API documentation
 
 [API docs](https://bookmark-be-production.up.railway.app/api)
+
+# Conclusion
+
+This project demonstrated the effectiveness of combining a robust backend with a user-friendly frontend. Auth0 enabled efficient social login integration, enhancing security. Railway.app facilitated swift deployment, ensuring scalability. The Forui component library helped maintain design consistency, supporting user-centric design and modern development practices.
