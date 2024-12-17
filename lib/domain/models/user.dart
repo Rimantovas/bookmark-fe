@@ -33,7 +33,7 @@ class User with UserMappable {
           name: mockName(),
           username: mockName().toLowerCase().replaceAll(' ', ''),
           email: '${mockName().toLowerCase().replaceAll(' ', '')}@example.com',
-          role: UserRole.values.first,
+          role: UserRole.regular,
         );
 
   User.guest()

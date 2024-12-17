@@ -1,3 +1,4 @@
+import 'package:app/domain/enums/user_role.dart';
 import 'package:app/domain/models/collection.dart';
 import 'package:app/domain/models/social_app.dart';
 import 'package:app/domain/models/tag.dart';
@@ -113,38 +114,47 @@ class BookmarkForm extends StatelessWidget {
             ),
           ),
           16.heightBox,
-          BlocSelector<TagsBloc, TagsState, List<Tag>>(
-            bloc: GetIt.I<TagsBloc>(),
-            selector: (state) => state.tags,
-            builder: (context, tags) {
-              return FLabel(
-                axis: Axis.vertical,
-                label: const Text('Tags'),
-                child: FSelectTileGroup<Tag>(
-                  groupController: tagsController,
-                  description: const Text('Select tags for your bookmark'),
-                  children: tags
-                      .map(
-                        (tag) => FSelectTile(
-                          title: Text(tag.name),
-                          suffixIcon: tag.icon != null
-                              ? Icon(tag.icon!.icon)
-                              : Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: tag.color,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                          value: tag,
-                        ),
-                      )
-                      .toList(),
-                ),
-              );
-            },
-          ),
+          BlocSelector<UserBloc, UserState, bool>(
+              bloc: GetIt.I<UserBloc>(),
+              selector: (state) {
+                return state.user.role == UserRole.premium;
+              },
+              builder: (context, isPremium) {
+                if (!isPremium) return const SizedBox();
+                return BlocSelector<TagsBloc, TagsState, List<Tag>>(
+                  bloc: GetIt.I<TagsBloc>(),
+                  selector: (state) => state.tags,
+                  builder: (context, tags) {
+                    return FLabel(
+                      axis: Axis.vertical,
+                      label: const Text('Tags'),
+                      child: FSelectTileGroup<Tag>(
+                        groupController: tagsController,
+                        description:
+                            const Text('Select tags for your bookmark'),
+                        children: tags
+                            .map(
+                              (tag) => FSelectTile(
+                                title: Text(tag.name),
+                                suffixIcon: tag.icon != null
+                                    ? Icon(tag.icon!.icon)
+                                    : Container(
+                                        width: 20,
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                          color: tag.color,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                value: tag,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    );
+                  },
+                );
+              })
         ],
       ),
     );

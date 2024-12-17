@@ -3,9 +3,12 @@ import 'package:app/data/repositories/bookmark_repository.dart';
 import 'package:app/data/services/url_metadata_service.dart';
 import 'package:app/domain/models/collection.dart';
 import 'package:app/domain/models/tag.dart';
+import 'package:app/main.dart';
 import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
+import 'package:app/presentation/common/utils/extensions.dart';
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
@@ -133,8 +136,7 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
         state.collectionId.isEmpty) {
       return;
     }
-
-    emit(state.copyWith(isLoading: true));
+    toggleLoading();
 
     try {
       final dto = CreateBookmarkDto(
@@ -150,10 +152,13 @@ class CreateBookmarkBloc extends Cubit<CreateBookmarkState> {
 
       await _bookmarkRepository.createBookmark(dto);
       // Handle success (close modal, show success message, etc.)
-    } catch (e) {
+    } on DioException catch (e) {
+      print('error: ${e.response?.data}');
       // Handle error
     } finally {
-      emit(state.copyWith(isLoading: false));
+      GetIt.I<UserBloc>().updateBookmarkCount(state.collectionId, true);
+      toggleLoading();
+      router.pop();
     }
   }
 }

@@ -105,6 +105,24 @@ class UserBloc extends Cubit<UserState> {
       ));
     }
   }
+
+  void updateBookmarkCount(String collectionId, bool isIncrement) {
+    if (state is! UserSuccess) return;
+
+    final currentState = state as UserSuccess;
+    final collections = [...currentState.collections];
+    final index = collections.indexWhere((c) => c.id == collectionId);
+    if (index != -1) {
+      collections[index] = collections[index].copyWith(
+        bookmarkCount:
+            collections[index].bookmarkCount + (isIncrement ? 1 : -1),
+      );
+      emit(UserSuccess(
+        user: currentState.user,
+        collections: collections,
+      ));
+    }
+  }
 }
 
 abstract class UserState {

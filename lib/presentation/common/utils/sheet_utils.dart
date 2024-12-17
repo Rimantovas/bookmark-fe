@@ -1,4 +1,6 @@
+import 'package:app/domain/enums/user_role.dart';
 import 'package:app/presentation/common/widgets/auth_sheet.dart';
+import 'package:app/presentation/common/widgets/change_role_sheet.dart';
 import 'package:app/presentation/common/widgets/premium_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:forui/forui.dart';
@@ -24,5 +26,14 @@ void showPremiumSheet(BuildContext context) {
     builder: (BuildContext context) {
       return const PremiumSheet();
     },
+  );
+}
+
+void showChangeRoleSheet(BuildContext context, UserRole currentRole) {
+  showFSheet(
+    context: context,
+    side: FLayout.btt,
+    constraints: const BoxConstraints(maxWidth: 450),
+    builder: (context) => ChangeRoleSheet(currentRole: currentRole),
   );
 }

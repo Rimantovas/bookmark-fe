@@ -2,6 +2,7 @@ import 'package:app/application/usecases/remove_access_token.dart';
 import 'package:app/domain/models/user.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/extensions.dart';
+import 'package:app/presentation/common/utils/sheet_utils.dart';
 import 'package:app/presentation/common/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,18 +42,16 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       FTile(
                         prefixIcon: _tileIcon(HugeIcons.strokeRoundedUser),
-                        title: const Text('Change Username'),
+                        title: const Text('Username'),
                         details: Text(state.user.username),
-                        suffixIcon: FIcon(FAssets.icons.chevronRight),
                         onPress: () {
                           // TODO: Implement username change
                         },
                       ),
                       FTile(
                         prefixIcon: _tileIcon(HugeIcons.strokeRoundedUser),
-                        title: const Text('Change Name'),
+                        title: const Text('Name'),
                         details: Text(state.user.name),
-                        suffixIcon: FIcon(FAssets.icons.chevronRight),
                         onPress: () {
                           // TODO: Implement name change
                         },
@@ -63,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                         details: Text(state.user.role.name.toUpperCase()),
                         suffixIcon: FIcon(FAssets.icons.chevronRight),
                         onPress: () {
-                          // TODO: Implement role change
+                          showChangeRoleSheet(context, state.user.role);
                         },
                       ),
                       FTile(

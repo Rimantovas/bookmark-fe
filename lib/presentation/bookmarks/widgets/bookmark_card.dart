@@ -39,6 +39,16 @@ class _BookmarkCardState extends State<BookmarkCard>
     return Tappable.animated(
       onTap: widget.onTap,
       child: FCard(
+        image: widget.bookmark.imageUrl != null
+            ? Skeleton.leaf(
+                child: Image.network(
+                  widget.bookmark.imageUrl!,
+                  height: 150,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              )
+            : null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -103,17 +113,6 @@ class _BookmarkCardState extends State<BookmarkCard>
                   ),
               ],
             ),
-            if (widget.bookmark.imageUrl != null) ...[
-              12.heightBox,
-              Skeleton.leaf(
-                child: Image.network(
-                  widget.bookmark.imageUrl!,
-                  height: 150,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
             if (widget.bookmark.description != null) ...[
               8.heightBox,
               Text(

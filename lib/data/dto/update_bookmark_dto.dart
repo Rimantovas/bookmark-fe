@@ -2,13 +2,14 @@ import 'package:dart_mappable/dart_mappable.dart';
 
 part 'update_bookmark_dto.mapper.dart';
 
-@MappableClass(
-  caseStyle: CaseStyle.snakeCase,
-)
+@MappableClass()
 class UpdateBookmarkDto with UpdateBookmarkDtoMappable {
   final String? link;
   final String? title;
   final String? description;
+  @MappableField(
+    key: 'image_url',
+  )
   final String? imageUrl;
   final List<String>? tagIds;
   final String? appId;

@@ -1,7 +1,9 @@
 import 'package:app/data/dto/create_tag_dto.dart';
 import 'package:app/data/dto/update_tag_dto.dart';
 import 'package:app/data/repositories/tag_repository.dart';
+import 'package:app/domain/enums/user_role.dart';
 import 'package:app/domain/models/tag.dart';
+import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -11,15 +13,20 @@ class TagsBloc extends Cubit<TagsState> {
   final _tagRepository = GetIt.I<TagRepository>();
 
   Future<void> getTags() async {
-    print('1');
+    final user = GetIt.I<UserBloc>().state.user;
+    if (user.role == UserRole.regular) {
+      emit(state.copyWith(tags: [], isLoading: false));
+      return;
+    }
+    print('getTags');
     emit(state.copyWith(isLoading: true));
 
     try {
       final tags = await _tagRepository.getTags();
-      print('2 ${tags.length}');
+      print('tags: ${tags.length}');
       emit(state.copyWith(tags: tags, isLoading: false));
     } catch (e) {
-      print('3 $e');
+      print('error: $e');
       emit(state.copyWith(isLoading: false));
     }
   }

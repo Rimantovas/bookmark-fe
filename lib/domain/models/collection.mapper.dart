@@ -39,7 +39,7 @@ class CollectionMapper extends ClassMapperBase<Collection> {
       Field('images', _$images, opt: true, def: const []);
   static int _$bookmarkCount(Collection v) => v.bookmarkCount;
   static const Field<Collection, int> _f$bookmarkCount =
-      Field('bookmarkCount', _$bookmarkCount);
+      Field('bookmarkCount', _$bookmarkCount, opt: true, def: 0);
 
   @override
   final MappableFields<Collection> fields = const {

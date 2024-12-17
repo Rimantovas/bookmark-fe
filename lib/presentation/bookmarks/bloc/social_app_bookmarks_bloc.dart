@@ -2,6 +2,7 @@ import 'package:app/data/repositories/bookmark_repository.dart';
 import 'package:app/data/repositories/social_app_repository.dart';
 import 'package:app/domain/models/bookmark.dart';
 import 'package:app/domain/models/social_app.dart';
+import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -55,21 +56,20 @@ class SocialAppBookmarksBloc extends Cubit<SocialAppBookmarksState> {
     }
   }
 
-  void deleteBookmark(String id) {
+  Future<void> deleteBookmark(String id) async {
     final oldBookmarks = [...state.bookmarks];
 
     // Optimistic update
     emit(state.copyWith(
       bookmarks: state.bookmarks.where((b) => b.id != id).toList(),
     ));
+    GetIt.I<UserBloc>().updateBookmarkCount(state.socialApp!.id, false);
 
     try {
-      _bookmarkRepository.deleteBookmark(id).catchError((_) {
-        // Revert on error
-        emit(state.copyWith(bookmarks: oldBookmarks));
-      });
+      await _bookmarkRepository.deleteBookmark(id);
     } catch (e) {
       // Revert on error
+      GetIt.I<UserBloc>().updateBookmarkCount(state.socialApp!.id, true);
       emit(state.copyWith(bookmarks: oldBookmarks));
     }
   }

@@ -33,13 +33,13 @@ class CreateBookmarkDtoMapper extends ClassMapperBase<CreateBookmarkDto> {
       Field('imageUrl', _$imageUrl, key: 'image_url', opt: true);
   static List<String>? _$tagIds(CreateBookmarkDto v) => v.tagIds;
   static const Field<CreateBookmarkDto, List<String>> _f$tagIds =
-      Field('tagIds', _$tagIds, key: 'tag_ids', opt: true);
+      Field('tagIds', _$tagIds, opt: true);
   static String? _$appId(CreateBookmarkDto v) => v.appId;
   static const Field<CreateBookmarkDto, String> _f$appId =
-      Field('appId', _$appId, key: 'app_id', opt: true);
+      Field('appId', _$appId, opt: true);
   static String _$collectionId(CreateBookmarkDto v) => v.collectionId;
   static const Field<CreateBookmarkDto, String> _f$collectionId =
-      Field('collectionId', _$collectionId, key: 'collection_id');
+      Field('collectionId', _$collectionId);
   static Map<String, dynamic>? _$metadata(CreateBookmarkDto v) => v.metadata;
   static const Field<CreateBookmarkDto, Map<String, dynamic>> _f$metadata =
       Field('metadata', _$metadata, opt: true);

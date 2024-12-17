@@ -40,7 +40,7 @@ class TagsScreen extends StatelessWidget {
                       final isGuest = GetIt.I<UserBloc>().state.isGuest;
                       final isPremium =
                           GetIt.I<UserBloc>().state is UserSuccess &&
-                              (GetIt.I<UserBloc>().state.user as UserSuccess)
+                              (GetIt.I<UserBloc>().state as UserSuccess)
                                       .user
                                       .role ==
                                   UserRole.premium;
@@ -80,7 +80,21 @@ class TagsScreen extends StatelessWidget {
                         width: 180,
                         child: FButton(
                           onPress: () {
-                            router.go(CreateTagRoute());
+                            final isGuest = GetIt.I<UserBloc>().state.isGuest;
+                            final isPremium =
+                                GetIt.I<UserBloc>().state is UserSuccess &&
+                                    (GetIt.I<UserBloc>().state as UserSuccess)
+                                            .user
+                                            .role ==
+                                        UserRole.premium;
+
+                            if (isGuest) {
+                              showAuthSheet(context, feature: 'create tags');
+                            } else if (!isPremium) {
+                              showPremiumSheet(context);
+                            } else {
+                              router.go(CreateTagRoute());
+                            }
                           },
                           label: const Text('Create new tag'),
                         ),

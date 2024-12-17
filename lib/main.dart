@@ -5,7 +5,6 @@ import 'package:app/data/repositories/secure_storage_repository.dart';
 import 'package:app/data/repositories/social_app_repository.dart';
 import 'package:app/data/repositories/tag_repository.dart';
 import 'package:app/data/repositories/user_repository.dart';
-import 'package:app/domain/enums/user_role.dart';
 import 'package:app/presentation/common/bloc/catalog_bloc.dart';
 import 'package:app/presentation/common/bloc/user_bloc.dart';
 import 'package:app/presentation/common/utils/router.dart';
@@ -65,8 +64,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> initUser() async {
     final accessToken = await GetAccessToken().call();
     if (accessToken != null) {
-      print('access token: $accessToken');
-      final response = await GetIt.I<UserBloc>().initUser();
+      await GetIt.I<UserBloc>().initUser();
       // if (response) {
       //   print('go to home');
       //   appRouter.go(HomeRoute());
@@ -81,13 +79,12 @@ class _MyAppState extends State<MyApp> {
         BlocListener<UserBloc, UserState>(
           bloc: GetIt.I<UserBloc>(),
           listener: (context, state) {
-            if (state.user.role == UserRole.premium) {
-              GetIt.I<TagsBloc>().getTags();
-            }
+            GetIt.I<TagsBloc>().getTags();
             GetIt.I<CatalogBloc>().init();
           },
           listenWhen: (previous, current) {
-            if (!previous.isLoggedIn && current.isLoggedIn) {
+            if ((!previous.isLoggedIn && current.isLoggedIn) ||
+                (previous.user.role != current.user.role)) {
               return true;
             }
             return false;

@@ -1,6 +1,7 @@
 import 'package:app/data/dto/search_pagination_dto.dart';
 import 'package:app/data/dto/user_response_dto.dart';
 import 'package:app/domain/models/user.dart';
+import 'package:app/domain/models/user_role_dto.dart';
 import 'package:app/main.dart';
 
 class UserRepository {
@@ -22,5 +23,12 @@ class UserRepository {
         queryParameters: searchPaginationDto.toMap());
 
     return response.data.map((e) => UserResponseDtoMapper.fromMap(e)).toList();
+  }
+
+  Future<void> updateRole(UserRoleDto dto) async {
+    await dio.post(
+      '/users/role',
+      data: dto.toMap(),
+    );
   }
 }

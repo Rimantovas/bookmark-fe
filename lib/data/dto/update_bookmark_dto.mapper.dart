@@ -34,13 +34,13 @@ class UpdateBookmarkDtoMapper extends ClassMapperBase<UpdateBookmarkDto> {
       Field('imageUrl', _$imageUrl, key: 'image_url', opt: true);
   static List<String>? _$tagIds(UpdateBookmarkDto v) => v.tagIds;
   static const Field<UpdateBookmarkDto, List<String>> _f$tagIds =
-      Field('tagIds', _$tagIds, key: 'tag_ids', opt: true);
+      Field('tagIds', _$tagIds, opt: true);
   static String? _$appId(UpdateBookmarkDto v) => v.appId;
   static const Field<UpdateBookmarkDto, String> _f$appId =
-      Field('appId', _$appId, key: 'app_id', opt: true);
+      Field('appId', _$appId, opt: true);
   static String? _$collectionId(UpdateBookmarkDto v) => v.collectionId;
   static const Field<UpdateBookmarkDto, String> _f$collectionId =
-      Field('collectionId', _$collectionId, key: 'collection_id', opt: true);
+      Field('collectionId', _$collectionId, opt: true);
   static Map<String, dynamic>? _$metadata(UpdateBookmarkDto v) => v.metadata;
   static const Field<UpdateBookmarkDto, Map<String, dynamic>> _f$metadata =
       Field('metadata', _$metadata, opt: true);

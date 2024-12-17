@@ -77,7 +77,7 @@ class BookmarksListScreen extends StatelessWidget {
               return AppLoader(
                 isLoading: isLoading,
                 child: ListView.separated(
-                  padding: EdgeInsets.zero,
+                  padding: const EdgeInsets.only(bottom: 56),
                   itemCount: bookmarks.length,
                   separatorBuilder: (_, __) => 12.heightBox,
                   itemBuilder: (context, index) {
